@@ -1,13 +1,8 @@
+- Frontend
+    - Charting of Prices in each Market
 - Missing Data Report
     - Start to End Timestamp of Market Price
     - Review Pricing Data for any missing minute data for each market.
-- Gemini Web Socket Listener
-    - How are we going to subscribe to Gemini Web Socket?
-        - Node JS Application
-        - Laravel Queue Worker
-    - Subscribe to candle_1m
-- Frontend
-    - Charting of Prices in each Market
 - Trading ( Requirements needed )
 - Aggregate Pricing for each CoinPair
 - Reverse base and quote columns.
