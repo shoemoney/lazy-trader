@@ -1,3 +1,4 @@
+- Reverse base and quote columns.
 - Frontend
     - Charting of Prices in each Market
 - Missing Data Report
@@ -5,7 +6,8 @@
     - Review Pricing Data for any missing minute data for each market.
 - Trading ( Requirements needed )
 - Aggregate Pricing for each CoinPair
-- Reverse base and quote columns.
 - Export Data (Low)
 - Solve issues with BitFinex causing updates before data is in database. (Locks & transactions)
+- Add .env to price streamer
+- Create production environment.
 

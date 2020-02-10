@@ -1,0 +1,16 @@
+.auth-layout {
+    align-items: center;
+    background-color: $primary;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+
+    > .auth-form {
+        background-color: #fff;
+        border: 3px solid $base-color-light;
+        border-radius: 5px;
+        max-width: 450px;
+        padding: 2rem;
+        width: 450px;
+    }
+}

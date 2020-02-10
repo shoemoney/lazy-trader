@@ -1,0 +1,103 @@
+/* We'll need some initial vars to use here */
+@import "~bulma/sass/utilities/initial-variables";
+
+/* Base: Size  */
+$size-base: 1rem;
+$default-padding: $size-base * 1.5;
+
+/* Default font */
+$family-sans-serif: "Nunito", sans-serif;
+
+/* Base color */
+$base-color: #2e323a;
+$base-color-light: rgba(24,28,33,0.03);
+$base-gradient: linear-gradient(to right, $base-color, #1e344c);
+
+$link: lighten($base-color, 10%);
+$link-visited: lighten($base-color, 25%);
+$link-hover: lighten($base-color, 25%);
+$light-border: 1px solid $base-color-light;
+
+/* Override Primary */
+$primary: #203752;
+
+$body-background-color: #f8f8f8;
+
+/* Default font */
+$family-sans-serif: "IBM Plex Sans", sans-serif;
+
+/* Body */
+$body-background-color: $base-color-light;
+
+/* Navbar: Bulma override */
+$navbar-dropdown-radius: $radius-small;
+
+/* NavBar: specifics */
+$navbar-input-color: $grey-darker;
+$navbar-input-placeholder-color: $grey-lighter;
+$navbar-box-shadow: 0 1px 0 rgba(24,28,33,.04);
+$navbar-divider-border: 1px solid rgba($grey-lighter, .25);
+$navbar-item-h-padding: $default-padding * .75;
+$navbar-avatar-size: 1.75rem;
+
+/* Title Bar: specifics */
+$title-bar-color: $grey;
+$title-bar-active-color: $black-ter;
+
+/* Icon: specifics */
+$icon-update-mark-size: $size-base * .5;
+$icon-update-mark-color: $yellow;
+
+/* Aside: Bulma override */
+$menu-item-radius: 0;
+$menu-list-link-padding: $size-base 0;
+$menu-item-color: rgba($white, .3);
+$menu-item-hover-color: $white;
+$menu-item-hover-background-color: darken($base-color, 3.5%);
+$menu-item-active-color: $white;
+$menu-item-active-background-color: darken($base-color, 2.5%);
+
+/* Aside: specifics */
+$aside-width: $size-base * 12;
+$aside-logo-width: $size-base * 9;
+$aside-mobile-width: $size-base * 15;
+$aside-icon-width: $size-base * 3;
+$aside-submenu-font-size: $size-base * .95;
+$aside-box-shadow: none;
+$aside-background-color: $primary;
+
+/* Card: Bulma override */
+$card-shadow: none;
+$card-header-shadow: none;
+
+/* Card: specifics */
+$card-header-border-bottom-color: $base-color-light;
+
+/* Table: Bulma override */
+$table-cell-border: 1px solid $white-bis;
+
+/* Table: specifics */
+$table-avatar-size: 1.5rem;
+$table-avatar-size-mobile: 25vw;
+
+/* Form */
+$checkbox-border: 1px solid rgba($base-color, 0.5);
+
+/* Modal card */
+$modal-card-width: 40vw;
+$modal-card-width-mobile: 90vw;
+
+/* Notification: Bulma override */
+$notification-radius: $radius-small;
+$notification-padding: $default-padding * .75 $default-padding;
+
+/* Footer: Bulma override */
+$footer-background-color: $white;
+$footer-padding: $default-padding * .33 $default-padding;
+
+/* Footer: specifics */
+$footer-logo-height: $size-base * 2;
+
+/* Progress: Bulma override */
+$progress-bar-background-color: $white-ter;
+

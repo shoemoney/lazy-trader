@@ -1,0 +1,28 @@
+#loading-bg {
+    background: #FFF;
+    display: block;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+
+    .loading-overlay {
+        background: #FFF;
+        display: block;
+        height: 100%;
+        position: absolute;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    .loading {
+        height: 55px;
+        left: calc(50% - 35px);
+        position: absolute;
+        top: 50%;
+        width: 55px;
+
+        i.fas {
+            color: $primary;
+        }
+    }
+}

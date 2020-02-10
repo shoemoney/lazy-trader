@@ -1,40 +1,59 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
 
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function login(Request $request)
     {
-        $this->middleware('guest')->except('logout');
+        $this->validate($request, $this->rules(), $this->validationErrorMessages());
+
+        $request = Request::create('/oauth/token', 'POST', [
+            'grant_type' => 'password',
+            'client_id' => config('services.vue_client.id'),
+            'client_secret' => config('services.vue_client.secret'),
+            'username' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        return app()->handle($request);
+    }
+
+    public function logout()
+    {
+        $accessToken = auth()->user()->token();
+
+        DB::table('oauth_access_tokens')->where('id', $accessToken->id)->delete();
+        DB::table('oauth_refresh_tokens')->where('access_token_id', $accessToken->id)->delete();
+
+        return response()->json(['status' => 200]);
+    }
+
+    /**
+     * Get the login validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ];
+    }
+
+    /**
+     * Get the login validation error messages.
+     *
+     * @return array
+     */
+    protected function validationErrorMessages()
+    {
+        return [];
     }
 }

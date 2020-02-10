@@ -37,6 +37,10 @@ return [
 
     'coinograph' => [
         'base-uri' => env('COINOGRAPH_BASE_URI', 'https://coinograph.io/')
-    ]
+    ],
+    'vue_client' => [
+        'id' => env('VUE_CLIENT_ID'),
+        'secret' => env('VUE_CLIENT_SECRET'),
+    ],
 
 ];
