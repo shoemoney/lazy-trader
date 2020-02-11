@@ -55,7 +55,7 @@ class MarketPriceGapAnalysis implements ShouldQueue
             }
         }
 
-        // TODO: Are we missing data up to 3 mins ago?
+        // Are we missing data up to 3 mins ago?
         $lastTimestamp = $this->market->prices()->selectRaw('MAX(timestamp) as timestamp')->first()->timestamp + 60;
         $currentTimestamp = now()->timestamp;
         $regressionTimestamp = $currentTimestamp - ($currentTimestamp % 60) - (60 * 3);
