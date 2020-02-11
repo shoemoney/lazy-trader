@@ -28,4 +28,9 @@ class Market extends Model
     {
         return $this->hasMany(MarketPrice::class);
     }
+
+    public function priceGaps()
+    {
+        return $this->hasMany(MarketPriceGap::class);
+    }
 }

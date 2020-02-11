@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Market;
 use Illuminate\Foundation\Inspiring;
 
 /*
@@ -36,3 +37,13 @@ Artisan::command('cryptocompare:fetch-historical-prices {exchange?} {--all}', fu
 Artisan::command('lazy-trader:import-pricing-from-csv {file}', function($file) {
     dispatch(new \App\Jobs\ImportPricingFromCsv($file));
 })->describe('Imports Pricing from CSV file template.');
+
+Artisan::command('lazy-trader:market-gap-analysis {market}', function($market) {
+    dispatch(new \App\Jobs\MarketPriceGapAnalysis(\App\Models\Market::findOrFail($market)));
+})->describe('Finds missing sequences in market pricing.');
+
+Artisan::command('lazy-trader:market-gap-analysis-all', function() {
+    foreach(Market::whereActive(true)->get() as $market) {
+        dispatch(new \App\Jobs\MarketPriceGapAnalysis($market));
+    }
+})->describe('Finds missing sequences in market pricing.');
