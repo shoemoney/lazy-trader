@@ -4,6 +4,8 @@
 - Missing Data Report
     - Start to End Timestamp of Market Price
     - Review Pricing Data for any missing minute data for each market.
+    - Compare previous report to new chunked report.
+    - Only report on the data that we haven't already reported on.
 - Trading ( Requirements needed )
 - Aggregate Pricing for each CoinPair
 - Export Data (Low)

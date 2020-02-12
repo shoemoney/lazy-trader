@@ -35,7 +35,7 @@ class MarketPriceGapAnalysis implements ShouldQueue
      */
     public function handle()
     {
-        $timestamps = $this->market->prices()
+        /*$timestamps = $this->market->prices()
             ->select(['timestamp'])
             ->orderBy('timestamp', 'asc')
             ->get()
@@ -53,7 +53,40 @@ class MarketPriceGapAnalysis implements ShouldQueue
                 $missing[] = [$group[0], $group[count($group) - 1]];
                 $group = [];
             }
-        }
+        }*/
+
+        $missing = [];
+        $group = [];
+        $lastKnownValue = null;
+
+        $this->market->prices()
+            ->select(['timestamp'])
+            ->orderBy('timestamp', 'asc')
+            ->chunk(5000, function($data) use(&$missing, &$group, &$lastKnownValue) {
+                if(count($group) > 0 && $group[count($group) - 1] + 60 === $data[0]->timestamp) {
+                    $missing = [$group[0], $group[count($group) - 1]];
+                    $group = [];
+                }
+
+                for($i = 0; $i < count($data); $i++) {
+                    $timestamp = $data[$i]->timestamp;
+
+                    for ($x = isset($lastKnownValue) ? $lastKnownValue : $timestamp + 60; isset($data[$i + 1]) && $x < $data[$i + 1]->timestamp; $x += 60) {
+                        $group[] = $x;
+                    }
+
+                    if (count($group) > 0) {
+                        $missing[] = [$group[0], $group[count($group) - 1]];
+                        $group = [];
+                    }
+                }
+
+                if (count($group) > 0) {
+                    $lastKnownValue = $group[0];
+                } else {
+                    $lastKnownValue = null;
+                }
+            });
 
         // Are we missing data up to 3 mins ago?
         $lastTimestamp = $this->market->prices()->selectRaw('MAX(timestamp) as timestamp')->first()->timestamp + 60;
@@ -74,5 +107,7 @@ class MarketPriceGapAnalysis implements ShouldQueue
                 'gap_timestamp_end' => $m[1]
             ]);
         }
+
+
     }
 }

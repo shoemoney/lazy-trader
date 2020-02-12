@@ -12,6 +12,11 @@
 @import './components/title-bar';
 @import './components/titles';
 
+body {
+    background-color: $body-background-color;
+}
+
+
 a {
     color: $link;
 
