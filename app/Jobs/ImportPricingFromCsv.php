@@ -27,11 +27,17 @@ class ImportPricingFromCsv implements ShouldQueue
     private $marketCache;
 
     /**
+     * @var bool
+     */
+    private $deleteFile;
+
+    /**
      * Create a new job instance.
      */
-    public function __construct($file)
+    public function __construct($file, $deleteFile = false)
     {
         $this->file = $file;
+        $this->deleteFile = $deleteFile;
         $this->marketCache = [];
     }
 
@@ -46,13 +52,17 @@ class ImportPricingFromCsv implements ShouldQueue
 
         if ($fileHandler) {
             // Remove header line...
-            $line = fgets($fileHandler);
+            fgets($fileHandler);
 
             while (($line = fgets($fileHandler)) !== false) {
                 $this->processLine($line);
             }
 
             fclose($fileHandler);
+
+            if($this->deleteFile) {
+                unlink($this->file);
+            }
         } else {
             throw new \Exception("Unable to find file");
         }

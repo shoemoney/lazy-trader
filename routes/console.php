@@ -28,16 +28,17 @@ Artisan::command('cryptocompare:fetch-markets', function() {
 
 Artisan::command('cryptocompare:fetch-historical-prices {exchange?} {--all}', function($exchange = null) {
     dispatch(new \App\Jobs\CryptoCompareFetchHistoricalPricing(
-        \App\Models\Exchange::whereInternalName($exchange)->first(),
+        \App\Models\Exchange::whereInternalName($exchange)->firstOrFail(),
         null,
         false
     ));
 })->describe('Fetches historical prices from CryptoCompare');
 
-Artisan::command('lazy-trader:import-pricing-from-csv {file}', function($file) {
+Artisan::command('lazy-trader:import-pricing-from-csv {file} {--delete}', function($file) {
     $files = glob($file);
     foreach($files as $f) {
-        dispatch(new \App\Jobs\ImportPricingFromCsv($f));
+        $this->info(realpath($f));
+//        dispatch(new \App\Jobs\ImportPricingFromCsv($f, $this->hasOption('delete')));
     }
 })->describe('Imports Pricing from CSV file template.');
 
