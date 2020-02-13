@@ -48,8 +48,6 @@ class ImportPricingFromCsv implements ShouldQueue
             // Remove header line...
             $line = fgets($fileHandler);
 
-            \Log::info($line);
-
             while (($line = fgets($fileHandler)) !== false) {
                 $this->processLine($line);
             }

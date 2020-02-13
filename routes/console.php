@@ -35,7 +35,10 @@ Artisan::command('cryptocompare:fetch-historical-prices {exchange?} {--all}', fu
 })->describe('Fetches historical prices from CryptoCompare');
 
 Artisan::command('lazy-trader:import-pricing-from-csv {file}', function($file) {
-    dispatch(new \App\Jobs\ImportPricingFromCsv($file));
+    $files = glob($file);
+    foreach($files as $f) {
+        dispatch(new \App\Jobs\ImportPricingFromCsv($f));
+    }
 })->describe('Imports Pricing from CSV file template.');
 
 Artisan::command('lazy-trader:market-gap-analysis {market}', function($market) {
