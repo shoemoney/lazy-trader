@@ -1,14 +1,15 @@
 section.section.is-title-bar {
-    background-color: darken($base-color-light, 70%);
-    padding: $default-padding;
+    padding: $default-padding 0;
     border-bottom: $light-border;
+    font-weight: 300;
 
     ul {
         li {
+            color: $base-color-light;
             display: inline-block;
+            font-size: $size-base * 2;
             padding: 0 0 0 $default-padding * .5;
-            font-size: $default-padding;
-            color: $title-bar-color;
+
 
             &:after {
                 display: inline-block;
@@ -22,7 +23,7 @@ section.section.is-title-bar {
 
             &:last-child {
                 padding-right: 0;
-                font-weight: 900;
+                font-weight: 500;
                 color: $title-bar-active-color;
 
                 &:after {

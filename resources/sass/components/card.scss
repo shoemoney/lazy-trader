@@ -1,0 +1,11 @@
+.card {
+    border-radius: $radius-large;
+    box-shadow: 0 4px 25px 0 rgba(0,0,0,.1);
+
+    .card-header {
+        .card-header-title {
+            font-size: 1.32rem;
+            letter-spacing: .05rem;
+        }
+    }
+}

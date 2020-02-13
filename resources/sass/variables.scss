@@ -3,26 +3,32 @@
 
 /* Base: Size  */
 $size-base: 1rem;
-$default-padding: $size-base * 1.5;
+$default-padding: $size-base;
 
 /* Default font */
-$family-sans-serif: "Nunito", sans-serif;
+$family-sans-serif: Montserrat, Helvetica, Arial, serif !important;
 
 /* Base color */
 $base-color: #10163a;
-$base-color-light: rgba(24,28,33,0.03);
+$base-color-medium: #262c49;
+$base-color-light: #c2c6dc;
+$base-color-lighter: lighten(#c2c6dc, 20%);
 $base-gradient: linear-gradient(to right, $base-color, #1e344c);
 
-$link: lighten($base-color, 10%);
-$link-visited: lighten($base-color, 25%);
-$link-hover: lighten($base-color, 25%);
-$light-border: 1px solid $base-color-light;
+$link: $base-color-light;
+$link-visited: lighten($base-color-light, 25%);
+$link-hover: lighten($base-color-light, 25%);
+$light-border: none;
 
 /* Override Primary */
-$primary: #10163a;
+$primary: #7367f0;
+$success: #28c76f;
+$danger: #ea5455;
+$warning: #ff9f43;
+$info: #00cfe8;
 
 /* Body */
-$body-background-color: #262c49;
+$body-background-color: $base-color-medium;
 
 /* Navbar: Bulma override */
 $navbar-dropdown-radius: $radius-small;
@@ -30,14 +36,23 @@ $navbar-dropdown-radius: $radius-small;
 /* NavBar: specifics */
 $navbar-input-color: $grey-darker;
 $navbar-input-placeholder-color: $grey-lighter;
-$navbar-box-shadow: 0 1px 0 rgba(24,28,33,.04);
+$navbar-box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .05);
 $navbar-divider-border: 1px solid rgba($grey-lighter, .25);
 $navbar-item-h-padding: $default-padding * .75;
 $navbar-avatar-size: 1.75rem;
+$navbar-border-radius: .5rem;
+
+$navbar-dropdown-background-color: $base-color-medium;
+$navbar-dropdown-border-top: 2px solid rgba(0,0,0,.05);
+
+$navbar-dropdown-item-hover-color: $base-color-lighter;
+$navbar-dropdown-item-hover-background-color: $primary;
+$navbar-dropdown-item-active-color: $link;
+$navbar-dropdown-item-active-background-color: $primary;
 
 /* Title Bar: specifics */
-$title-bar-color: $grey;
-$title-bar-active-color: $black-ter;
+$title-bar-color: $base-color-light;
+$title-bar-active-color: lighten($base-color-light, 20%);
 
 /* Icon: specifics */
 $icon-update-mark-size: $size-base * .5;
@@ -46,22 +61,28 @@ $icon-update-mark-color: $yellow;
 /* Aside: Bulma override */
 $menu-item-radius: 0;
 $menu-list-link-padding: $size-base 0;
-$menu-item-color: rgba($white, .3);
-$menu-item-hover-color: $white;
-$menu-item-hover-background-color: darken($base-color, 3.5%);
-$menu-item-active-color: $white;
-$menu-item-active-background-color: darken($base-color, 2.5%);
+$menu-item-color: $base-color-light;
+$menu-item-hover-color: $base-color-light;
+$menu-item-hover-background-color: transparent;
+$menu-item-active-color: $base-color-light;
+$menu-item-active-background-color: transparent;
 
 /* Aside: specifics */
-$aside-width: $size-base * 12;
+$aside-width: $size-base * 16.25;
 $aside-logo-width: $size-base * 9;
 $aside-mobile-width: $size-base * 15;
 $aside-icon-width: $size-base * 3;
 $aside-submenu-font-size: $size-base * .95;
 $aside-box-shadow: none;
-$aside-background-color: $primary;
+$aside-background-color: $base-color;
 
 /* Card: Bulma override */
+$card-background-color: $base-color;
+$card-color: $base-color-light;
+$card-header-color: $base-color-lighter;
+$card-header-weight: 500;
+$card-header-padding: 1.5rem 1.5rem 0;
+$card-footer-color: $base-color-light;
 $card-shadow: none;
 $card-header-shadow: none;
 

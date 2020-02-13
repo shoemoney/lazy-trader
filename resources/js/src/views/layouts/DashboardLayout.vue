@@ -2,7 +2,9 @@
     <div>
         <nav-bar></nav-bar>
         <aside-menu :menu="menu"></aside-menu>
-        <router-view></router-view>
+        <div class="content-wrapper">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
@@ -43,7 +45,6 @@
             let htmlClassList = document.getElementsByTagName('html').item(0).classList;
             htmlClassList.add('has-aside-left');
             htmlClassList.add('has-aside-mobile-transition');
-            htmlClassList.add('has-navbar-fixed-top');
             htmlClassList.add('has-aside-expanded');
         },
 
@@ -53,7 +54,6 @@
             let htmlClassList = document.getElementsByTagName('html').item(0).classList;
             htmlClassList.remove('has-aside-left');
             htmlClassList.remove('has-aside-mobile-transition');
-            htmlClassList.remove('has-navbar-fixed-top');
             htmlClassList.remove('has-aside-expanded');
         }
     }

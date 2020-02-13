@@ -1,6 +1,7 @@
 nav.navbar {
-    background-color: $base-color-light;
+    background-color: $base-color;
     box-shadow: $navbar-box-shadow;
+    border-radius: $navbar-border-radius;
 
     .navbar-item {
         &.has-user-avatar {
@@ -46,10 +47,12 @@ nav.navbar {
 
     .navbar-link, .navbar-item {
         color: $link;
+    }
 
-        &:hover {
-            color: $link-hover;
-        }
+    .navbar-link:hover,
+    .navbar-item.has-dropdown.is-active .navbar-link {
+        background-color: transparent !important;
+        color: $link-hover;
     }
 }
 

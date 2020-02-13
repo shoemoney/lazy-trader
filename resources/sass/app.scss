@@ -1,24 +1,36 @@
 // Buefy
+@import 'variables';
 @import "~buefy/src/scss/buefy-build";
 
 // Lazy Trader Components
-@import 'variables';
 @import 'mixins';
 @import 'utilities';
-@import './components/loading';
 @import './components/aside';
 @import './components/auth-layout';
+@import './components/card';
+@import './components/loading';
 @import './components/nav-bar';
 @import './components/title-bar';
 @import './components/titles';
 
 body {
     background-color: $body-background-color;
+    color: $base-color-light;
+    font-family: $family-sans-serif;
+    min-height: 100vh;
+    min-width: 100vw;
 }
 
+.content-wrapper {
+    padding: 1.3rem 2.2rem;
+}
 
 a {
     color: $link;
+
+    &.is-active {
+        color: $link;
+    }
 
     &:hover {
         color: $link-hover;

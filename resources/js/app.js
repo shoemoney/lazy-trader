@@ -26,6 +26,14 @@ library.add(faCheck, faCheckCircle, faInfoCircle, faExclamationTriangle, faExcla
     faArrowUp, faAngleRight, faAngleLeft, faAngleDown,
     faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload, faHome, faBitcoin, faEllipsisV, faBars, faSignOutAlt, faChevronDown, faChevronUp, faTimes);
 
+import WebFont from 'webfontloader';
+
+WebFont.load({
+    google: {
+        families: ['Montserrat:300,500,700']
+    }
+});
+
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 Vue.component('title-bar', TitleBar);
 

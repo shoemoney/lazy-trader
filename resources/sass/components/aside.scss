@@ -2,11 +2,11 @@
     html {
         &.has-aside-left {
             &.has-aside-expanded {
-                nav.navbar, body {
+                body {
                     padding-left: $aside-width;
                 }
             }
-            nav.navbar, body {
+            body {
                 @include transition(padding-left);
             }
             aside.is-placed-left {
@@ -46,7 +46,8 @@ aside.aside {
     background: $aside-background-color;
 
     .image {
-        margin: $size-base auto;
+        margin: $size-base auto $size-base * 1.5;
+
         img {
             max-width: $aside-logo-width;
             margin: 0 auto;
@@ -55,6 +56,9 @@ aside.aside {
 
     .menu-list {
         li {
+
+            padding: 0 1.25rem;
+
             ul {
                 display: none;
                 border-left: 0;
@@ -80,14 +84,25 @@ aside.aside {
             }
 
             a {
+                border-radius: $radius-large;
                 color: lighten($primary, 75%);
+                margin-bottom: $size-base / 2;
+                padding: 0.625rem 0.9375rem;
 
-                &.is-active {
-                    background-color: darken($primary, 5%);
-                }
+                @include transition(padding-left);
 
                 &:hover {
-                    background-color: lighten($primary, 5%);
+                    background: transparent;
+                    padding-left: 2rem;
+                }
+
+                &.is-active {
+                    background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, .7));
+                    box-shadow: 0 0 10px 1px rgba(115, 103, 240, .7) !important;
+                }
+
+                > .fa, > svg {
+                    margin-right: 0.65rem;
                 }
             }
         }
