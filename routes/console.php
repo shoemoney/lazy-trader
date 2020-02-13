@@ -37,8 +37,7 @@ Artisan::command('cryptocompare:fetch-historical-prices {exchange?} {--all}', fu
 Artisan::command('lazy-trader:import-pricing-from-csv {file} {--delete}', function($file) {
     $files = glob($file);
     foreach($files as $f) {
-        $this->info(realpath($f));
-//        dispatch(new \App\Jobs\ImportPricingFromCsv($f, $this->hasOption('delete')));
+        dispatch(new \App\Jobs\ImportPricingFromCsv(realpath($f), $this->hasOption('delete')));
     }
 })->describe('Imports Pricing from CSV file template.');
 
