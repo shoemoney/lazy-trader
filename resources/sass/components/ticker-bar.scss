@@ -1,0 +1,36 @@
+.tickers {
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    overflow-x: auto;
+    transform: translate3d(0, 0, 0);
+
+    > .ticker {
+        animation: moveTicker 12s linear infinite;
+        border-radius: $radius-large;
+        flex: 0 0 auto;
+        transform: translate3d(0, 0, 0);
+
+        padding: 4px 8px;
+
+        &:not(:last-child) {
+            margin-right: 5px;
+        }
+
+        &:hover {
+            background-color: $base-color-light;
+            color: $base-color;
+        }
+    }
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+@keyframes moveTicker {
+    100% {
+        transform: translateX(-66.6666%);
+    }
+}

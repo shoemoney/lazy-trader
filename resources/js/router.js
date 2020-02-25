@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Dashboard from "@/views/Dashboard";
-import Coins from "@/views/Coins";
+import Dashboard from "@/views/dashboard/Dashboard";
+import CoinIndex from "@/views/dashboard/coins/CoinIndex";
+import CoinView from "@/views/dashboard/coins/CoinView";
 import DashboardLayout from "@/views/layouts/DashboardLayout";
 import Login from "@/views/auth/Login";
 import Register from "@/views/auth/Register";
@@ -79,10 +80,16 @@ const router = new Router({
                 {
                     path: 'coins',
                     name: 'coins',
-                    component: Coins,
+                    component: CoinIndex,
                     meta: {
                         auth: true
                     }
+                },
+
+                {
+                    path: 'coins/:symbol',
+                    name: 'view',
+                    component: CoinView
                 }
             ]
         }

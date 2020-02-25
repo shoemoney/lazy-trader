@@ -2,11 +2,11 @@
 - Frontend
     - Charting of Prices in each Market
 - Missing Data Report
-    - Start to End Timestamp of Market Price
-    - Review Pricing Data for any missing minute data for each market.
-    - Compare previous report to new chunked report.
-    - Only report on the data that we haven't already reported on.
+    - Attempt to find when a market started.
 - Trading ( Requirements needed )
+- Store news and updates.
+- Get coin color into database.
+- Market Type: Spot, Margin
 - Aggregate Pricing for each CoinPair
 - Export Data (Low)
 - Solve issues with BitFinex causing updates before data is in database. (Locks & transactions)

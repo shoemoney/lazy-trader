@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Buefy from 'buefy';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import TitleBar from "@/components/TitleBar";
+import TitleBar from "@/components/Layout/TitleBar";
 
 Vue.prototype.$http = window.axios = axios.create({
     baseURL: '/api/'
@@ -18,13 +18,13 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 // internal icons
 import { faCheck, faCheckCircle, faInfoCircle, faExclamationTriangle, faExclamationCircle,
     faArrowUp, faAngleRight, faAngleLeft, faAngleDown,
-    faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload, faHome, faEllipsisV, faBars, faSignOutAlt, faChevronDown, faChevronUp, faTimes } from "@fortawesome/free-solid-svg-icons";
+    faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload, faHome, faEllipsisV, faBars, faSignOutAlt, faChevronDown, faChevronUp, faTimes, faWallet, faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faBitcoin } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(faCheck, faCheckCircle, faInfoCircle, faExclamationTriangle, faExclamationCircle,
     faArrowUp, faAngleRight, faAngleLeft, faAngleDown,
-    faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload, faHome, faBitcoin, faEllipsisV, faBars, faSignOutAlt, faChevronDown, faChevronUp, faTimes);
+    faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload, faHome, faBitcoin, faEllipsisV, faBars, faSignOutAlt, faChevronDown, faChevronUp, faTimes, faWallet, faChevronRight, faChevronLeft);
 
 import WebFont from 'webfontloader';
 

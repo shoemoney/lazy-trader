@@ -34,6 +34,12 @@ Artisan::command('cryptocompare:fetch-historical-prices {exchange?} {--all}', fu
     ));
 })->describe('Fetches historical prices from CryptoCompare');
 
+Artisan::command('cryptocompare:fetch-historical-prices-market {market}', function($market) {
+    dispatch(new \App\Jobs\CryptoCompareFetchHistoricalPricingForMarket(
+        \App\Models\Market::findOrFail($market)
+    ));
+})->describe('Fetches historical prices from CryptoCompare');
+
 Artisan::command('lazy-trader:import-pricing-from-csv {file} {--delete}', function($file) {
     $files = glob($file);
     foreach($files as $f) {
@@ -50,3 +56,9 @@ Artisan::command('lazy-trader:market-gap-analysis-all', function() {
         dispatch(new \App\Jobs\MarketPriceGapAnalysis($market));
     }
 })->describe('Finds missing sequences in market pricing.');
+
+Artisan::command('lazy-trader:market-gap-recovery {market}', function($market) {
+    dispatch(new \App\Jobs\MarketPriceGapRecovery(
+        Market::findOrFail($market)
+    ));
+})->describe('Attempts to recover missing sequences in market pricing.');

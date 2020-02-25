@@ -19,13 +19,29 @@ class MarketPriceGapAnalysis implements ShouldQueue
     private $market;
 
     /**
+     * @var null
+     */
+    private $startTimestamp;
+
+    /**
+     * @var null
+     */
+    private $endTimestamp;
+
+    /**
+     * @var bool
+     */
+    private $checkMarketReport;
+
+    /**
      * Create a new job instance.
      */
-    public function __construct(Market $market)
+    public function __construct(Market $market, $startTimestamp = null, $endTimestamp = null, $checkMarketReport = true)
     {
         $this->market = $market;
-
-        ini_set('memory_limit', '4G');
+        $this->startTimestamp = $startTimestamp;
+        $this->endTimestamp = $endTimestamp;
+        $this->checkMarketReport = $checkMarketReport;
     }
 
     /**
@@ -35,70 +51,79 @@ class MarketPriceGapAnalysis implements ShouldQueue
      */
     public function handle()
     {
-        /*$timestamps = $this->market->prices()
-            ->select(['timestamp'])
-            ->orderBy('timestamp', 'asc')
-            ->get()
-            ->pluck('timestamp');
-
-        $missing = [];
-        $group = [];
-
-        for ($i = 0; $i < count($timestamps) - 1; $i++) {
-            for ($x = $timestamps[$i] + 60; $x < $timestamps[$i + 1]; $x += 60) {
-                $group[] = $x;
-            }
-
-            if (count($group) > 0) {
-                $missing[] = [$group[0], $group[count($group) - 1]];
-                $group = [];
-            }
-        }*/
+        if ($this->market->prices()->count() === 0)
+            return;
 
         $missing = [];
         $group = [];
         $lastKnownValue = null;
+        $lastReportedTimestamp = null;
 
-        $this->market->prices()
+        $query = $this->market->prices()
             ->select(['timestamp'])
-            ->orderBy('timestamp', 'asc')
-            ->chunk(5000, function($data) use(&$missing, &$group, &$lastKnownValue) {
-                if(count($group) > 0 && $group[count($group) - 1] + 60 === $data[0]->timestamp) {
-                    $missing = [$group[0], $group[count($group) - 1]];
-                    $group = [];
-                }
+            ->orderBy('timestamp', 'asc');
 
-                for($i = 0; $i < count($data); $i++) {
-                    $timestamp = $data[$i]->timestamp;
+        if ($this->checkMarketReport && $this->market->missing_data_report_timestamp) {
+            $query = $query->where('timestamp', '>=', $this->market->missing_data_report_timestamp);
+        }
 
-                    for ($x = isset($lastKnownValue) ? $lastKnownValue : $timestamp + 60; isset($data[$i + 1]) && $x < $data[$i + 1]->timestamp; $x += 60) {
-                        $group[] = $x;
-                    }
+        if ($this->startTimestamp) {
+            $query = $query->where('timestamp', '>=', $this->startTimestamp);
+        }
 
-                    if (count($group) > 0) {
-                        $missing[] = [$group[0], $group[count($group) - 1]];
-                        $group = [];
-                    }
+        if ($this->endTimestamp) {
+            $query = $query->where('timestamp', '<=', $this->endTimestamp);
+        }
+
+        $query->chunk(5000, function ($data) use (&$missing, &$group, &$lastKnownValue, &$lastReportedTimestamp) {
+            if (count($group) > 0 && $group[count($group) - 1] + 60 === $data[0]->timestamp) {
+                $missing = [$group[0], $group[count($group) - 1]];
+                $group = [];
+            }
+
+            for ($i = 0; $i < count($data); $i++) {
+                $timestamp = $data[$i]->timestamp;
+                $lastReportedTimestamp = $timestamp;
+
+                for ($x = isset($lastKnownValue) ? $lastKnownValue : $timestamp + 60; isset($data[$i + 1]) && $x < $data[$i + 1]->timestamp; $x += 60) {
+                    $group[] = $x;
                 }
 
                 if (count($group) > 0) {
-                    $lastKnownValue = $group[0];
-                } else {
-                    $lastKnownValue = null;
+                    $missing[] = [$group[0], $group[count($group) - 1]];
+                    $group = [];
                 }
-            });
+            }
 
-        // Are we missing data up to 3 mins ago?
-        $lastTimestamp = $this->market->prices()->selectRaw('MAX(timestamp) as timestamp')->first()->timestamp + 60;
-        $currentTimestamp = now()->timestamp;
-        $regressionTimestamp = $currentTimestamp - ($currentTimestamp % 60) - (60 * 3);
+            if (count($group) > 0) {
+                $lastKnownValue = $group[0];
+            } else {
+                $lastKnownValue = null;
+            }
+        });
 
-        if($lastTimestamp < $regressionTimestamp) {
-            $missing[] = [$lastTimestamp, $regressionTimestamp];
+        if(!$this->startTimestamp && !$this->endTimestamp && $lastReportedTimestamp) {
+            // Are we missing data up to 3 mins ago?
+            $lastTimestamp = $lastReportedTimestamp + 60;
+            $currentTimestamp = now()->timestamp;
+            $regressionTimestamp = $currentTimestamp - ($currentTimestamp % 60) - (60 * 3);
+
+            if ($lastTimestamp < $regressionTimestamp) {
+                $missing[] = [$lastTimestamp, $regressionTimestamp];
+            }
         }
 
         // Remove all existing data gaps.
-        $this->market->priceGaps()->delete();
+        $deleteQuery = $this->market->priceGaps();
+
+        if ($this->startTimestamp) {
+            $deleteQuery = $deleteQuery->where('gap_timestamp_start', '>=', $this->startTimestamp);
+        }
+        if ($this->endTimestamp) {
+            $deleteQuery = $deleteQuery->where('gap_timestamp_end', '<=', $this->endTimestamp);
+        }
+
+        $deleteQuery->delete();
 
         // Add new market_price_gaps
         foreach ($missing as $m) {
@@ -108,6 +133,11 @@ class MarketPriceGapAnalysis implements ShouldQueue
             ]);
         }
 
+        // Set a timestamp for the end of the report.
+        if ($this->checkMarketReport && $lastReportedTimestamp) {
+            $this->market->missing_data_report_timestamp = $lastReportedTimestamp;
+            $this->market->save();
+        }
 
     }
 }

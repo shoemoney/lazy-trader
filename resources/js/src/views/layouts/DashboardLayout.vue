@@ -9,8 +9,8 @@
 </template>
 
 <script>
-    import NavBar from '@/components/NavBar';
-    import AsideMenu from "@/components/AsideMenu";
+    import NavBar from '@/components/Layout/NavBar';
+    import AsideMenu from "@/components/Layout/AsideMenu";
 
     export default {
         components: {
@@ -34,8 +34,15 @@
                         },
                         icon: ['fab', 'bitcoin'],
                         label: 'Coins'
+                    },
+                    {
+                        to: {
+                            name: 'coins'
+                        },
+                        icon: 'wallet',
+                        label: 'Portfolio'
                     }
-                ];
+                ]
             }
         },
 

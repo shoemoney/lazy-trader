@@ -1,6 +1,6 @@
 .auth-layout {
     align-items: center;
-    background-color: $primary;
+    background-color: $body-background-color;
     display: flex;
     height: 100vh;
     justify-content: center;
@@ -9,6 +9,7 @@
         background-color: #fff;
         border: 3px solid $base-color-light;
         border-radius: 5px;
+        color: #555555;
         max-width: 450px;
         padding: 2rem;
         width: 450px;

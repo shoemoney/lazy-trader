@@ -2,7 +2,7 @@
     <div class="navbar-item has-dropdown has-dropdown-with-icons" :class="{ 'is-hoverable':isHoverable, 'is-active':isDropdownActive }">
         <a @click="toggle" class="navbar-link is-arrowless">
             <slot></slot>
-            <b-icon :icon="toggleDropdownIcon" custom-size="default"/>
+            <b-icon :icon="toggleDropdownIcon"/>
         </a>
         <slot name="dropdown"></slot>
     </div>

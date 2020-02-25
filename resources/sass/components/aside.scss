@@ -6,6 +6,13 @@
                     padding-left: $aside-width;
                 }
             }
+
+            &:not(.has-aside-expanded) {
+                body {
+                    padding-left: $aside-width-closed;
+                }
+            }
+
             body {
                 @include transition(padding-left);
             }
@@ -30,7 +37,15 @@
                     display: block;
                 }
             }
+
+            li a:hover {
+                padding-left: 2rem;
+            }
         }
+    }
+
+    aside.aside:not(.is-expanded) {
+        width: $aside-width-closed;
     }
 }
 
@@ -45,6 +60,48 @@ aside.aside {
     box-shadow: $aside-box-shadow;
     background: $aside-background-color;
 
+    @include transition(width);
+
+    .toggle-button {
+        display: flex;
+        align-items: center;
+        font-size: $aside-toggle-size / 2;
+        justify-content: center;
+        position: absolute;
+        top: $aside-toggle-size / 2;
+        right: -($aside-toggle-size / 2);
+        z-index: 2;
+        border-radius: 50%;
+        background-color: $aside-background-color;
+        color: $base-color-lighter;
+        width: $aside-toggle-size;
+        height: $aside-toggle-size;
+
+        &:hover {
+            animation: pulse 2s infinite;
+            background-color: $base-color-light;
+            color: $base-color-medium;
+        }
+    }
+
+
+    @keyframes pulse {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba($base-color-lighter, 0.7);
+        }
+
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba($base-color-lighter, 0);
+        }
+
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba($base-color-lighter, 0);
+        }
+    }
+
     .image {
         margin: $size-base auto $size-base * 1.5;
 
@@ -55,6 +112,11 @@ aside.aside {
     }
 
     .menu-list {
+
+        span.menu-item-label {
+            display: none;
+        }
+
         li {
 
             padding: 0 1.25rem;
@@ -93,7 +155,6 @@ aside.aside {
 
                 &:hover {
                     background: transparent;
-                    padding-left: 2rem;
                 }
 
                 &.is-active {
@@ -122,20 +183,29 @@ aside.aside {
     #app, nav.navbar {
         @include transition(margin-left);
     }
+
     aside.aside {
         @include transition(left);
     }
+
     html.has-aside-mobile-transition {
         body {
             overflow-x: hidden;
         }
-        body, #app, nav.navbar {
+        body, #app {
             width: 100vw;
+        }
+        nav.navbar {
+            width: calc(100vw - 4.4rem);
         }
         aside.aside {
             width: $aside-mobile-width;
             display: block;
             left: $aside-mobile-width * -1;
+
+            .toggle-button {
+                display: none;
+            }
 
             .image {
                 img {
@@ -159,6 +229,7 @@ aside.aside {
             }
         }
     }
+
     html.has-aside-mobile-expanded {
         #app, nav.navbar {
             margin-left: $aside-mobile-width;

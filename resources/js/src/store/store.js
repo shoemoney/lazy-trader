@@ -13,6 +13,7 @@ export default new Vuex.Store({
 
         /* Aside */
         isAsideVisible: true,
+        isAsideExpanded: true,
         isAsideMobileExpanded: false
     },
     mutations: {
@@ -40,6 +41,27 @@ export default new Vuex.Store({
             }
 
             state.isAsideMobileExpanded = isShow
+        },
+
+        /* Aside Desktop Expanded */
+        asideExpandedStateToggle (state, payload = null) {
+            const htmlClassName = 'has-aside-expanded'
+
+            let isShow
+
+            if (payload !== null) {
+                isShow = payload
+            } else {
+                isShow = !state.isAsideExpanded
+            }
+
+            if (isShow) {
+                document.documentElement.classList.add(htmlClassName)
+            } else {
+                document.documentElement.classList.remove(htmlClassName)
+            }
+
+            state.isAsideExpanded = isShow
         }
     },
     modules: {

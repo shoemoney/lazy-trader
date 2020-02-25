@@ -71,7 +71,7 @@ nav.navbar {
 
         .navbar-menu {
             position: absolute;
-            width: 100vw;
+            width: calc(100vw - 4.4rem);
             padding-top: 0;
             top: $navbar-height;
             left: 0;

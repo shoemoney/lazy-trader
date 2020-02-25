@@ -10,6 +10,7 @@ $family-sans-serif: Montserrat, Helvetica, Arial, serif !important;
 
 /* Base color */
 $base-color: #10163a;
+$base-color-dark: #212744;
 $base-color-medium: #262c49;
 $base-color-light: #c2c6dc;
 $base-color-lighter: lighten(#c2c6dc, 20%);
@@ -19,6 +20,8 @@ $link: $base-color-light;
 $link-visited: lighten($base-color-light, 25%);
 $link-hover: lighten($base-color-light, 25%);
 $light-border: none;
+
+$text-strong: $base-color-light;
 
 /* Override Primary */
 $primary: #7367f0;
@@ -36,7 +39,7 @@ $navbar-dropdown-radius: $radius-small;
 /* NavBar: specifics */
 $navbar-input-color: $grey-darker;
 $navbar-input-placeholder-color: $grey-lighter;
-$navbar-box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .05);
+$navbar-box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .25);
 $navbar-divider-border: 1px solid rgba($grey-lighter, .25);
 $navbar-item-h-padding: $default-padding * .75;
 $navbar-avatar-size: 1.75rem;
@@ -69,12 +72,14 @@ $menu-item-active-background-color: transparent;
 
 /* Aside: specifics */
 $aside-width: $size-base * 16.25;
+$aside-width-closed: $size-base * 5.5;
 $aside-logo-width: $size-base * 9;
 $aside-mobile-width: $size-base * 15;
 $aside-icon-width: $size-base * 3;
 $aside-submenu-font-size: $size-base * .95;
-$aside-box-shadow: none;
+$aside-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .4);
 $aside-background-color: $base-color;
+$aside-toggle-size: 30px;
 
 /* Card: Bulma override */
 $card-background-color: $base-color;
@@ -83,14 +88,18 @@ $card-header-color: $base-color-lighter;
 $card-header-weight: 500;
 $card-header-padding: 1.5rem 1.5rem 0;
 $card-footer-color: $base-color-light;
-$card-shadow: none;
+$card-shadow: 0 0 10px 0 rgba(0, 0, 0, .4);
 $card-header-shadow: none;
 
 /* Card: specifics */
 $card-header-border-bottom-color: $base-color-light;
 
 /* Table: Bulma override */
-$table-cell-border: 1px solid $white-bis;
+$table-color: $base-color-light;
+$table-background-color: $base-color-dark;
+$table-cell-border: 1px solid #414561;
+$table-head-cell-color: $base-color-lighter;
+$table-striped-row-even-background-color: $base-color-medium;
 
 /* Table: specifics */
 $table-avatar-size: 1.5rem;
