@@ -37,6 +37,22 @@ class CryptoCompareApi
         ]);
     }
 
+    public function latestNews($lTs = null, $source = 'ALL_NEWS_FEEDS')
+    {
+        if($lTs === null) {
+            $lTs = time();
+        }
+        return $this->get('/data/v2/news/', [
+            'lTs' => $lTs,
+            'feeds' => $source ?: 'ALL_NEWS_FEEDS'
+        ]);
+    }
+
+    public function newsSources()
+    {
+        return $this->get('/data/news/feeds');
+    }
+
     public function histominute($fsym, $tsym, $exchange, $toTs = null, $limit = 2000)
     {
         if (!isset($toTs)) {

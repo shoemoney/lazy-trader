@@ -9,16 +9,13 @@
             </header>
             <div class="card-content">
                 <div class="content">
-                    <b-table :data="coins" :columns="coinColumns" :striped="true" :hoverable="true" :loading="isLoading">
+                    <b-table :data="displayCoins" :columns="coinColumns" :striped="true" :hoverable="true" :loading="isLoading">
 
                         <template slot="empty">
                             <section class="section">
                                 <div class="content has-text-grey has-text-centered">
                                     <p>
-                                        <b-icon
-                                            icon="times"
-                                            size="is-large">
-                                        </b-icon>
+                                        <vue-fontawesome icon="times" size="3x"></vue-fontawesome>
                                     </p>
                                     <p>Nothing here.</p>
                                 </div>
@@ -26,6 +23,20 @@
                         </template>
 
                     </b-table>
+
+                    <b-pagination
+                        :total="coins.length"
+                        :per-page="pagination.limit"
+                        :simple="true"
+                        :current.sync="pagination.page"
+                        @change="changePage"
+                        aria-next-label="Next page"
+                        aria-previous-label="Previous page"
+                        aria-page-label="Page"
+                        aria-current-label="Current page">
+                    </b-pagination>
+
+                    {{ pagination }}
                 </div>
             </div>
         </div>
@@ -33,19 +44,33 @@
 </template>
 
 <script>
+
     export default {
 
         computed: {
+            displayCoins() {
+                let start = (this.$store.state.coins.pagination.page - 1) * this.$store.state.coins.pagination.limit;
+                let end = start + this.$store.state.coins.pagination.limit;
+
+                return this.coins.slice(
+                    start,
+                    end,
+                )
+            },
+
             titleStack() {
                 return [
                     'Coins'
                 ]
-            }
+            },
+        },
+
+        created() {
+            this.refreshCoins();
         },
 
         data() {
             return {
-                coins: [],
                 coinColumns: [
                     {
                         field: 'id',
@@ -66,9 +91,39 @@
                         label: 'Current Agg Price'
                     }
                 ],
+                coins: [],
+                pagination: {},
                 isLoading: true
             }
-        }
+        },
 
+
+        methods: {
+            async refreshCoins() {
+                console.log(this.$store.state.coins.coins);
+                if(this.$store.state.coins.coins === null) {
+                    console.log('attempt');
+                    await this.$store.dispatch('fetchCoins');
+                }
+
+                this.coins = this.$store.getters.getCoins;
+                this.pagination = this.$store.getters.getCoinPagination;
+                this.isLoading = false;
+            },
+
+            changePage(page) {
+                console.log('change page' + page);
+                this.$store.commit('setCoinPage', page);
+            }
+            //
+            // coinsSuccess(response) {
+            //     this.isLoading = false;
+            //     this.coins = response.data;
+            // },
+            //
+            // coinsError(err) {
+            //     // TODO: Alert user that coins response failed.
+            // }
+        }
     }
 </script>

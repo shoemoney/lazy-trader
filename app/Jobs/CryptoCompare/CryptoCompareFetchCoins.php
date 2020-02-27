@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\CryptoCompare;
 
 use App\Integrations\CryptoCompareApi;
 use App\Models\Coin;

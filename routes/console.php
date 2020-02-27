@@ -15,19 +15,37 @@ use Illuminate\Foundation\Inspiring;
 */
 
 Artisan::command('cryptocompare:fetch-coins', function() {
-    dispatch(new \App\Jobs\CryptoCompareFetchCoins());
+    dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchCoins());
 })->describe('Fetches coins from CryptoCompare');
 
 Artisan::command('cryptocompare:fetch-exchanges', function() {
-    dispatch(new \App\Jobs\CryptoCompareFetchExchanges());
+    dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchExchanges());
 })->describe('Fetches exchanges from CryptoCompare');
 
+Artisan::command('cryptocompare:fetch-latest-news', function() {
+    dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchNewsArticles());
+})->describe('Fetches latest news from CryptoCompare');
+
+Artisan::command('cryptocompare:fetch-news-sources', function() {
+    dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchNewsSources());
+})->describe('Fetches news sources from CryptoCompare');
+
+Artisan::command('cryptocompare:fetch-news', function() {
+    dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchNewsArticles(false));
+})->describe('Fetches news from CryptoCompare');
+
+Artisan::command('cryptocompare:fetch-news-by-source', function() {
+    foreach(\App\Models\NewsSource::all() as $source) {
+        dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchNewsArticles(false, $source->internal_name));
+    }
+})->describe('Fetches news from all sources from CryptoCompare');
+
 Artisan::command('cryptocompare:fetch-markets', function() {
-    dispatch(new \App\Jobs\CryptoCompareFetchMarkets());
+    dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchMarkets());
 })->describe('Fetches markets from CryptoCompare');
 
 Artisan::command('cryptocompare:fetch-historical-prices {exchange?} {--all}', function($exchange = null) {
-    dispatch(new \App\Jobs\CryptoCompareFetchHistoricalPricing(
+    dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchHistoricalPricing(
         \App\Models\Exchange::whereInternalName($exchange)->firstOrFail(),
         null,
         false
@@ -35,7 +53,7 @@ Artisan::command('cryptocompare:fetch-historical-prices {exchange?} {--all}', fu
 })->describe('Fetches historical prices from CryptoCompare');
 
 Artisan::command('cryptocompare:fetch-historical-prices-market {market}', function($market) {
-    dispatch(new \App\Jobs\CryptoCompareFetchHistoricalPricingForMarket(
+    dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchHistoricalPricingForMarket(
         \App\Models\Market::findOrFail($market)
     ));
 })->describe('Fetches historical prices from CryptoCompare');
@@ -62,3 +80,7 @@ Artisan::command('lazy-trader:market-gap-recovery {market}', function($market) {
         Market::findOrFail($market)
     ));
 })->describe('Attempts to recover missing sequences in market pricing.');
+
+Artisan::command('lazy-trader:seed-coin-tags', function() {
+    dispatch(new \App\Jobs\SeedCoinTagsFromName());
+})->describe('Creates coin tag data from name & symbol.');

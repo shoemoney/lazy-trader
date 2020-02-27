@@ -15,10 +15,10 @@ class CoinographApi
         ]);
     }
 
-    public function coins($exchange, $quoteSymbol, $baseSymbol, $start, $end)
+    public function coins($exchange, $baseSymbol, $quoteSymbol, $start, $end)
     {
         return $this->get('/candles', [
-            'symbol' => strtolower($exchange . ':' . $quoteSymbol . $baseSymbol),
+            'symbol' => strtolower($exchange . ':' . $baseSymbol . $quoteSymbol),
             'step' => 60,
             'start' => $start,
             'end' => $end

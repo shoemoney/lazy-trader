@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\CryptoCompare;
 
 use App\Integrations\CryptoCompareApi;
 use App\Models\Market;
@@ -57,8 +57,8 @@ class CryptoCompareFetchHistoricalPricingForMarket implements ShouldQueue
         try {
 
             $prices = $api->histominute(
-                $this->market->coinPair->quote->symbol,
                 $this->market->coinPair->base->symbol,
+                $this->market->coinPair->quote->symbol,
                 $this->market->exchange->internal_name,
                 $toTs
             );

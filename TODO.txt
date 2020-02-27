@@ -1,10 +1,11 @@
-- Reverse base and quote columns.
 - Frontend
     - Charting of Prices in each Market
 - Missing Data Report
     - Attempt to find when a market started.
+- Add trade volume to pricing data.
 - Trading ( Requirements needed )
-- Store news and updates.
+- Store social media data for each coin.
+- Add relevancy score to tags.
 - Get coin color into database.
 - Market Type: Spot, Margin
 - Aggregate Pricing for each CoinPair

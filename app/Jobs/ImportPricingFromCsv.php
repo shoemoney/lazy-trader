@@ -77,9 +77,9 @@ class ImportPricingFromCsv implements ShouldQueue
 
         if(!isset($this->marketCache[$marketKey])) {
             $exchange = Exchange::whereName($data[1])->first();
-            $quoteCoin = Coin::whereSymbol($data[2])->first();
-            $baseCoin = Coin::whereSymbol($data[3])->first();
-            $coinPair = CoinPair::whereQuoteCoinId($quoteCoin->id)->whereBaseCoinId($baseCoin->id)->first();
+            $baseCoin = Coin::whereSymbol($data[2])->first();
+            $quoteCoin = Coin::whereSymbol($data[3])->first();
+            $coinPair = CoinPair::whereBaseCoinId($baseCoin->id)->whereQuoteCoinId($quoteCoin->id)->first();
 
             $this->marketCache[$marketKey] = Market::whereExchangeId($exchange->id)
                 ->whereCoinPairId($coinPair->id)

@@ -3,8 +3,9 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import user from './modules/user'
-import auth from './modules/auth'
+import user from './modules/user';
+import auth from './modules/auth';
+import coins from './modules/coins';
 
 export default new Vuex.Store({
     state: {
@@ -65,7 +66,8 @@ export default new Vuex.Store({
         }
     },
     modules: {
-        user,
-        auth
+        user: user,
+        auth: auth,
+        coins: coins
     }
 })

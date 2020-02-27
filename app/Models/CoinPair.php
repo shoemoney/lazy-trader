@@ -11,11 +11,11 @@ class CoinPair extends Model
 
     public function getNameAttribute()
     {
-        return $this->quote->symbol . $this->base->symbol;
+        return $this->base->symbol . $this->quote->symbol;
     }
     public function getNameSeperatedAttribute()
     {
-        return $this->quote->symbol . '/' . $this->base->symbol;
+        return $this->base->symbol . '/' . $this->quote->symbol;
     }
 
     public function quote()
@@ -26,5 +26,10 @@ class CoinPair extends Model
     public function base()
     {
         return $this->belongsTo(Coin::class, 'base_coin_id');
+    }
+
+    public function markets()
+    {
+        return $this->hasMany(Market::class);
     }
 }

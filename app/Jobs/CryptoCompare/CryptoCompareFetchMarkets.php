@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\CryptoCompare;
 
 use App\Integrations\CryptoCompareApi;
 use App\Models\Coin;
@@ -60,16 +60,16 @@ class CryptoCompareFetchMarkets implements ShouldQueue
 
     private function fetchCoinPair($pair)
     {
-        $quoteCoin = Coin::whereSymbol($pair->fsym)->first();
-        $baseCoin = Coin::whereSymbol($pair->tsym)->first();
-
-        if(empty($quoteCoin)) {
-            \Log::info("Unable to find coin: " . $pair->fsym);
-            return null;
-        }
+        $baseCoin = Coin::whereSymbol($pair->fsym)->first();
+        $quoteCoin = Coin::whereSymbol($pair->tsym)->first();
 
         if(empty($baseCoin)) {
             \Log::info("Unable to find coin: " . $pair->tsym);
+            return null;
+        }
+
+        if(empty($quoteCoin)) {
+            \Log::info("Unable to find coin: " . $pair->fsym);
             return null;
         }
 

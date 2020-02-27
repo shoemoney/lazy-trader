@@ -37,7 +37,7 @@
                     },
                     {
                         to: {
-                            name: 'coins'
+                            name: 'portfolio'
                         },
                         icon: 'wallet',
                         label: 'Portfolio'

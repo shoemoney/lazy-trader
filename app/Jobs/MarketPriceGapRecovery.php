@@ -41,35 +41,42 @@ class MarketPriceGapRecovery implements ShouldQueue
             $exchangeApi = ExchangeFactory::create($this->market->exchange->internal_name);
 
             foreach ($this->market->priceGaps as $gap) {
-                $data = $exchangeApi->minuteOhlc($this->market, $gap->gap_timestamp_start, $gap->gap_timestamp_end + 60);
 
-                \Log::info($this->market->name . ' attempting recovery from ' . $gap->gap_timestamp_start . ' to ' . $gap->gap_timestamp_end . ' found ' . count($data) . ' rows');
+                $totalMinutes = ($gap->gap_timestamp_end / 60) - ($gap->gap_timestamp_start / 60);
 
-                foreach ($data as $ohlc) {
-                    try {
-                        $this->market->prices()->updateOrCreate([
-                            'timestamp' => $ohlc->getTimestamp()
-                        ], [
-                            'open' => $ohlc->getOpen(),
-                            'high' => $ohlc->getHigh(),
-                            'low' => $ohlc->getLow(),
-                            'close' => $ohlc->getClose()
-                        ]);
-                    } catch (QueryException $exception) {
-                        if (!\Str::contains($exception->getMessage(), 'Duplicate entry')) {
-                            throw $exception;
+                for($i = 0; $i < $totalMinutes; $i += 500) {
+
+                    $data = $exchangeApi->minuteOhlc($this->market, $gap->gap_timestamp_start + ($i * 60), $gap->gap_timestamp_start + ($i * 60) + (500 * 60));
+
+                    \Log::info($this->market->name . ' attempting recovery from ' . ($gap->gap_timestamp_start + ($i * 60)) . ' to ' . ($gap->gap_timestamp_start + ($i * 60) + (500 * 60)) . ' found ' . count($data) . ' rows');
+
+                    foreach ($data as $ohlc) {
+                        try {
+                            $this->market->prices()->updateOrCreate([
+                                'timestamp' => $ohlc->getTimestamp()
+                            ], [
+                                'open' => $ohlc->getOpen(),
+                                'high' => $ohlc->getHigh(),
+                                'low' => $ohlc->getLow(),
+                                'close' => $ohlc->getClose()
+                            ]);
+                        } catch (QueryException $exception) {
+                            if (!\Str::contains($exception->getMessage(), 'Duplicate entry')) {
+                                throw $exception;
+                            }
+
                         }
-
                     }
-                }
 
+                }
                 $gap->delete();
 
                 // Re-run our analysis to verify we have good data.
                 dispatch(new MarketPriceGapAnalysis($this->market, $gap->gap_timestamp_start, $gap->gap_timestamp_end + 60, false));
             }
         } catch (\Exception $e) {
-            \Log::info('Unable to process for Gemini');
+            \Log::info('Unable to process market recovery');
+            \Log::error($e);
         }
     }
 }

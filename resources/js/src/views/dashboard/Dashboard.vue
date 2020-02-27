@@ -15,7 +15,23 @@
                         </p>
                     </header>
                     <div class="card-content">
+                        <b-table :striped="true" :hoverable="true">
 
+                            <template slot="empty">
+                                <section class="section">
+                                    <div class="content has-text-grey has-text-centered">
+                                        <p>
+                                            <b-icon
+                                                icon="times"
+                                                size="is-large">
+                                            </b-icon>
+                                        </p>
+                                        <p>Nothing here.</p>
+                                    </div>
+                                </section>
+                            </template>
+
+                        </b-table>
                     </div>
                 </div>
             </div>
@@ -55,7 +71,23 @@
                         </p>
                     </header>
                     <div class="card-content">
+                        <b-table :striped="true" :hoverable="true">
 
+                            <template slot="empty">
+                                <section class="section">
+                                    <div class="content has-text-grey has-text-centered">
+                                        <p>
+                                            <b-icon
+                                                icon="times"
+                                                size="is-large">
+                                            </b-icon>
+                                        </p>
+                                        <p>Nothing here.</p>
+                                    </div>
+                                </section>
+                            </template>
+
+                        </b-table>
                     </div>
                 </div>
             </div>
