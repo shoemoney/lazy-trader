@@ -10,7 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class CryptoCompareFetchHistoricalPricing implements ShouldQueue
+class CryptoCompareFetchPricing implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -30,6 +30,11 @@ class CryptoCompareFetchHistoricalPricing implements ShouldQueue
     private $activeOnly;
 
     /**
+     * @var bool
+     */
+    private $historical;
+
+    /**
      * Create a new job instance.
      *
      * @return void
@@ -37,12 +42,14 @@ class CryptoCompareFetchHistoricalPricing implements ShouldQueue
     public function __construct(
         Exchange $exchange = null,
         CoinPair $pair = null,
-        $activeOnly = false
+        $activeOnly = false,
+        $historical = false
     )
     {
         $this->exchange = $exchange;
         $this->pair = $pair;
         $this->activeOnly = $activeOnly;
+        $this->historical = $historical;
     }
 
     /**
@@ -73,8 +80,8 @@ class CryptoCompareFetchHistoricalPricing implements ShouldQueue
         $markets = $marketQuery->get();
 
         foreach ($markets as $market) {
-            \Log::info('Spawning market historical data for ' . $market->name);
-            dispatch(new CryptoCompareFetchHistoricalPricingForMarket($market));
+            \Log::info('Spawning market ' . ($this->historical ? 'historical' : 'current') . ' pricing data for ' . $market->name);
+            dispatch(new CryptoCompareFetchPricingForMarket($market, $this->historical));
         }
     }
 }

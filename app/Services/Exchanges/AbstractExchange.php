@@ -2,6 +2,7 @@
 
 use App\Models\Market;
 use App\Services\Pricing\Ohlc;
+use App\Services\Pricing\Ohlcv;
 
 abstract class AbstractExchange
 {
@@ -12,6 +13,14 @@ abstract class AbstractExchange
      * @return Ohlc[]
      */
     abstract function minuteOhlc(Market $market, $startTimestamp = null, $endTimestamp = null): iterable;
+
+    /**
+     * @param Market $market
+     * @param integer $startTimestamp
+     * @param integer $endTimestamp
+     * @return Ohlcv[]
+     */
+    abstract function minuteOhlcv(Market $market, $startTimestamp = null, $endTimestamp = null): iterable;
 
     /**
      * @return string

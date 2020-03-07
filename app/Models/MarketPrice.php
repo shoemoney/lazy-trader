@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MarketPrice extends Model
 {
 
-    public $fillable = ['timestamp', 'open', 'close', 'high', 'low'];
+    public $fillable = ['timestamp', 'open', 'close', 'high', 'low', 'volume'];
 
     public $timestamps = false;
 

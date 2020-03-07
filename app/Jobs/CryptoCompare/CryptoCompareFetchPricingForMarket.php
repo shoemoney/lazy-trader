@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class CryptoCompareFetchHistoricalPricingForMarket implements ShouldQueue
+class CryptoCompareFetchPricingForMarket implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -23,13 +23,19 @@ class CryptoCompareFetchHistoricalPricingForMarket implements ShouldQueue
     private $market;
 
     /**
+     * @var bool
+     */
+    private $historical;
+
+    /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Market $market)
+    public function __construct(Market $market, $historical = false)
     {
         $this->market = $market;
+        $this->historical = $historical;
     }
 
     /**
@@ -45,7 +51,7 @@ class CryptoCompareFetchHistoricalPricingForMarket implements ShouldQueue
 
         $oldestPriceData = MarketPrice::whereMarketId($this->market->id)->orderBy('timestamp')->limit(1)->first();
         $toTs = now()->timestamp;
-        if ($oldestPriceData) {
+        if ($oldestPriceData && $this->historical) {
             $toTs = $oldestPriceData->timestamp;
         }
 
@@ -70,7 +76,8 @@ class CryptoCompareFetchHistoricalPricingForMarket implements ShouldQueue
                     'open' => $price->open,
                     'close' => $price->close,
                     'high' => $price->high,
-                    'low' => $price->low
+                    'low' => $price->low,
+                    'volume' => $price->volumeto
                 ]);
             }
         } catch (\Exception $e) {

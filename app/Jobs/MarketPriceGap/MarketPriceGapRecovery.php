@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\MarketPriceGap;
 
 use App\Models\Market;
 use App\Services\Exchanges\ExchangeFactory;
@@ -46,19 +46,20 @@ class MarketPriceGapRecovery implements ShouldQueue
 
                 for($i = 0; $i < $totalMinutes; $i += 500) {
 
-                    $data = $exchangeApi->minuteOhlc($this->market, $gap->gap_timestamp_start + ($i * 60), $gap->gap_timestamp_start + ($i * 60) + (500 * 60));
+                    $data = $exchangeApi->minuteOhlcv($this->market, $gap->gap_timestamp_start + ($i * 60), $gap->gap_timestamp_start + ($i * 60) + (500 * 60));
 
                     \Log::info($this->market->name . ' attempting recovery from ' . ($gap->gap_timestamp_start + ($i * 60)) . ' to ' . ($gap->gap_timestamp_start + ($i * 60) + (500 * 60)) . ' found ' . count($data) . ' rows');
 
-                    foreach ($data as $ohlc) {
+                    foreach ($data as $ohlcv) {
                         try {
                             $this->market->prices()->updateOrCreate([
-                                'timestamp' => $ohlc->getTimestamp()
+                                'timestamp' => $ohlcv->getTimestamp()
                             ], [
-                                'open' => $ohlc->getOpen(),
-                                'high' => $ohlc->getHigh(),
-                                'low' => $ohlc->getLow(),
-                                'close' => $ohlc->getClose()
+                                'open' => $ohlcv->getOpen(),
+                                'high' => $ohlcv->getHigh(),
+                                'low' => $ohlcv->getLow(),
+                                'close' => $ohlcv->getClose(),
+                                'volume' => $ohlcv->getVolume()
                             ]);
                         } catch (QueryException $exception) {
                             if (!\Str::contains($exception->getMessage(), 'Duplicate entry')) {
@@ -72,7 +73,7 @@ class MarketPriceGapRecovery implements ShouldQueue
                 $gap->delete();
 
                 // Re-run our analysis to verify we have good data.
-                dispatch(new MarketPriceGapAnalysis($this->market, $gap->gap_timestamp_start, $gap->gap_timestamp_end + 60, false));
+                dispatch(new MarketVolumeGapAnalysis($this->market, $gap->gap_timestamp_start, $gap->gap_timestamp_end + 60, false));
             }
         } catch (\Exception $e) {
             \Log::info('Unable to process market recovery');

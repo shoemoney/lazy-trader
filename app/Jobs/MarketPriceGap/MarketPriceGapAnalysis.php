@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\MarketPriceGap;
 
 use App\Models\Market;
 use Illuminate\Bus\Queueable;

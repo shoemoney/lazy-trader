@@ -5,27 +5,27 @@ class Ohlc
     /**
      * @var integer
      */
-    private $timestamp;
+    protected $timestamp;
 
     /**
      * @var float
      */
-    private $open;
+    protected $open;
 
     /**
      * @var float
      */
-    private $high;
+    protected $high;
 
     /**
      * @var float
      */
-    private $low;
+    protected $low;
 
     /**
      * @var float
      */
-    private $close;
+    protected $close;
 
     public function __construct($timestamp, $open, $high, $low, $close)
     {
