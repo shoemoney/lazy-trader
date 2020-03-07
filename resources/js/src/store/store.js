@@ -15,7 +15,9 @@ export default new Vuex.Store({
         /* Aside */
         isAsideVisible: true,
         isAsideExpanded: true,
-        isAsideMobileExpanded: false
+        isAsideMobileExpanded: false,
+
+        userName: 'Test User'
     },
     mutations: {
         /* A fit-them-all commit */

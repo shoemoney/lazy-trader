@@ -10,6 +10,7 @@
 @import './components/card';
 @import './components/loading';
 @import './components/nav-bar';
+@import './components/steps';
 @import './components/ticker-bar';
 @import './components/title-bar';
 @import './components/titles';
@@ -20,6 +21,30 @@ body {
     font-family: $family-sans-serif;
     min-height: 100vh;
     min-width: 100vw;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 500;
+}
+
+h1 {
+    font-size: $size-base * 2;
+}
+
+h2 {
+    font-size: $size-base * 1.75;
+}
+
+h3 {
+    font-size: $size-base * 1.5;
+}
+
+h4 {
+    font-size: $size-base * 1.25;
+}
+
+h5 {
+    font-size: $size-base;
 }
 
 .content-wrapper {
@@ -35,5 +60,25 @@ a {
 
     &:hover {
         color: $link-hover;
+    }
+}
+
+hr {
+    background-color: $base-color-medium;
+    margin: 1rem 0;
+}
+
+.is-user-avatar {
+    &.has-max-width {
+        max-width: $size-base * 7;
+    }
+
+    &.is-aligned-center {
+        margin: 0 auto;
+    }
+
+    img {
+        margin: 0 auto;
+        border-radius: $radius-rounded;
     }
 }

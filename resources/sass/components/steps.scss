@@ -1,0 +1,19 @@
+.b-steps .steps {
+    .step-items {
+        .step-item {
+            .step-title {
+                color: $base-color-lighter;
+            }
+
+            .step-marker {
+                background-color: lighten($base-color-medium, 8%);
+            }
+
+            &.is-active {
+                .step-marker {
+                    background-color: $base-color-light;
+                }
+            }
+        }
+    }
+}

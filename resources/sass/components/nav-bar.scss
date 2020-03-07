@@ -54,6 +54,10 @@ nav.navbar {
         background-color: transparent !important;
         color: $link-hover;
     }
+
+    .navbar-divider {
+        background-color: $base-color-light;
+    }
 }
 
 @include touch {

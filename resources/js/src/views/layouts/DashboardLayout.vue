@@ -41,14 +41,50 @@
                         },
                         icon: 'wallet',
                         label: 'Portfolio'
+                    },
+                    {
+                        to: {
+                            name: 'trading'
+                        },
+                        icon: 'exchange-alt',
+                        label: 'Trading',
+                        menu: [
+
+                            {
+                                to: {
+                                    name: 'trading'
+                                },
+                                icon: 'tachometer-alt',
+                                label: 'Overview'
+                            },
+                            {
+                                to: {
+                                    name: 'trading.strategy'
+                                },
+                                icon: 'sliders-h',
+                                label: 'Strategies'
+                            },
+                            {
+                                to: {
+                                    name: 'trading.backtesting'
+                                },
+                                icon: 'history',
+                                label: 'Backtesting'
+                            },
+                            {
+                                to: {
+                                    name: 'trading.bots'
+                                },
+                                icon: 'robot',
+                                label: 'Bots'
+                            },
+                        ]
                     }
                 ]
             }
         },
 
         mounted() {
-            console.log('mounted Admin Layout');
-            //  class="has-aside-left has-aside-mobile-transition has-navbar-fixed-top has-aside-expanded"
             let htmlClassList = document.getElementsByTagName('html').item(0).classList;
             htmlClassList.add('has-aside-left');
             htmlClassList.add('has-aside-mobile-transition');

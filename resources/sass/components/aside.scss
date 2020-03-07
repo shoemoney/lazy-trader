@@ -121,29 +121,6 @@ aside.aside {
 
             padding: 0 1.25rem;
 
-            ul {
-                display: none;
-                border-left: 0;
-                background-color: rgba($base-color, .5);
-                padding-left: 0;
-                margin: 0 0 $default-padding * .5;
-
-                li {
-                    a {
-                        padding: $default-padding * .5 0 $default-padding * .5 $default-padding * .5;
-                        font-size: $aside-submenu-font-size;
-
-                        &.has-icon {
-                            padding-left: 0;
-                        }
-                        &.is-active {
-                            &:not(:hover) {
-                                background: transparent;
-                            }
-                        }
-                    }
-                }
-            }
 
             a {
                 border-radius: $radius-large;
@@ -164,6 +141,44 @@ aside.aside {
 
                 > .fa, > svg {
                     margin-right: 0.65rem;
+                }
+            }
+
+            ul {
+                background-color: rgba($base-color, .5);
+                border-left: 0;
+                margin: 0 0 $default-padding * .5;
+                padding-left: 0;
+                transform: scaleY(0);
+                transform-origin: left top;
+                @include transition(transform);
+
+                li {
+
+                    a {
+                        border-left: 2px solid $base-color-medium;
+                        border-radius: 0;
+                        font-size: $aside-submenu-font-size;
+                        margin-bottom: 0;
+                        padding: $default-padding * .5;
+
+                        &.is-active {
+                            background: transparent;
+                            box-shadow: none !important;
+                            border-left-color: $base-color-light;
+                        }
+
+                        &:hover {
+                            padding: $default-padding * .5 !important;
+                            border-left-color: $base-color-light;
+                        }
+                    }
+                }
+            }
+
+            &.is-active, &:hover {
+                ul {
+                    transform: scaleY(1);
                 }
             }
         }

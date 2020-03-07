@@ -10,6 +10,17 @@ import PasswordEmail from "@/views/auth/password/PasswordEmail";
 import PasswordReset from "@/views/auth/password/PasswordReset";
 import store from '@/store/store';
 import AuthLayout from "./src/views/layouts/AuthLayout";
+import PortfolioIndex from "./src/views/dashboard/portfolio/PortfolioIndex";
+import TradingIndex from "./src/views/dashboard/trading/TradingIndex";
+import StrategyIndex from "./src/views/dashboard/trading/strategies/StrategyIndex";
+import StrategyCreate from "./src/views/dashboard/trading/strategies/StrategyCreate";
+import BacktestingIndex from "./src/views/dashboard/trading/backtesting/BacktestingIndex";
+import BacktestingView from "./src/views/dashboard/trading/backtesting/BacktestingView";
+import BacktestingCreate from "./src/views/dashboard/trading/backtesting/BacktestingCreate";
+import BotsView from "./src/views/dashboard/trading/bots/BotsView";
+import BotsCreate from "./src/views/dashboard/trading/bots/BotsCreate";
+import BotsIndex from "./src/views/dashboard/trading/bots/BotsIndex";
+import Profile from "./src/views/dashboard/profile/Profile";
 
 Vue.use(Router)
 
@@ -80,16 +91,70 @@ const router = new Router({
                 {
                     path: 'coins',
                     name: 'coins',
-                    component: CoinIndex,
-                    meta: {
-                        auth: true
-                    }
+                    component: CoinIndex
                 },
 
                 {
                     path: 'coins/:symbol',
-                    name: 'view',
+                    name: 'coins.view',
                     component: CoinView
+                },
+
+                {
+                    path: 'portfolio',
+                    name: 'portfolio',
+                    component: PortfolioIndex
+                },
+
+                {
+                    path: 'trading',
+                    name: 'trading',
+                    component: TradingIndex
+                },
+                {
+                    path: 'trading/strategy',
+                    name: 'trading.strategy',
+                    component: StrategyIndex
+                },
+                {
+                    path: 'trading/strategy/create',
+                    name: 'trading.strategy.create',
+                    component: StrategyCreate
+                },
+                {
+                    path: 'trading/backtesting',
+                    name: 'trading.backtesting',
+                    component: BacktestingIndex
+                },
+                {
+                    path: 'trading/backtesting/create',
+                    name: 'trading.backtesting.create',
+                    component: BacktestingCreate
+                },
+                {
+                    path: 'trading/backtesting/:id',
+                    name: 'trading.backtesting.view',
+                    component: BacktestingView
+                },
+                {
+                    path: 'trading/bots',
+                    name: 'trading.bots',
+                    component: BotsIndex
+                },
+                {
+                    path: 'trading/bots/create',
+                    name: 'trading.bots.create',
+                    component: BotsCreate
+                },
+                {
+                    path: 'trading/bots/:id',
+                    name: 'trading.bots.view',
+                    component: BotsView
+                },
+                {
+                    path:'user/profile',
+                    name: 'user.profile',
+                    component: Profile
                 }
             ]
         }

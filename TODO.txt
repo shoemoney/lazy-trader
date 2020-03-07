@@ -1,5 +1,6 @@
 - Frontend
     - Charting of Prices in each Market
+    - Aside submenu stays open when submenu item is selected.
 - Missing Data Report
     - Attempt to find when a market started.
 - Add trade volume to pricing data.

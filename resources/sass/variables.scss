@@ -9,8 +9,9 @@ $default-padding: $size-base;
 $family-sans-serif: Montserrat, Helvetica, Arial, serif !important;
 
 /* Base color */
+$scheme-main: #10163a;
 $base-color: #10163a;
-$base-color-dark: #212744;
+$base-color-dark: darken(#212744, 5%);
 $base-color-medium: #262c49;
 $base-color-light: #c2c6dc;
 $base-color-lighter: lighten(#c2c6dc, 20%);
@@ -30,6 +31,11 @@ $danger: #ea5455;
 $warning: #ff9f43;
 $info: #00cfe8;
 
+/* Form Control Overrides */
+$scheme-main: $base-color-medium;
+$control-border-width: 0;
+$control-padding-horizontal: $size-base;
+
 /* Body */
 $body-background-color: $base-color-medium;
 
@@ -46,7 +52,7 @@ $navbar-avatar-size: 1.75rem;
 $navbar-border-radius: .5rem;
 
 $navbar-dropdown-background-color: $base-color-medium;
-$navbar-dropdown-border-top: 2px solid rgba(0,0,0,.05);
+$navbar-dropdown-border-top: 2px solid rgba(0, 0, 0, .05);
 
 $navbar-dropdown-item-hover-color: $base-color-lighter;
 $navbar-dropdown-item-hover-background-color: $primary;
@@ -126,3 +132,10 @@ $footer-logo-height: $size-base * 2;
 /* Progress: Bulma override */
 $progress-bar-background-color: $white-ter;
 
+/* Steps: variable overrides */
+$steps-marker-default-color: $base-color-medium;
+$steps-marker-default-border: .2em solid $base-color-medium;
+$steps-default-color: $base-color-medium;
+$steps-previous-color: $primary;
+$steps-active-color: $primary;
+$steps-divider-height: .2em;

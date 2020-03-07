@@ -1,16 +1,66 @@
 .card {
     border-radius: $radius-large;
-    box-shadow: 0 4px 25px 0 rgba(0,0,0,.1);
+    box-shadow: 0 4px 25px 0 rgba(0, 0, 0, .1);
     margin-bottom: 1.5rem;
 
-    .card-header {
-        .card-header-title {
+    > .card-header {
+        > .card-header-title {
             font-size: 1.32rem;
             letter-spacing: .05rem;
+
+            &.card-header-title-sm {
+                font-size: 0.9rem;
+            }
+        }
+
+        > .card-header-item {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            padding: .75rem 1rem
+        }
+
+        > .card-header-icon {
+            > button:not(:last-child) {
+                margin-right: 0.75rem;
+            }
         }
     }
 
-    &.card-tight > .card-content {
-        padding: 0.75rem 0.5rem;
+    &.card-outline {
+        background-color: $base-color-medium;
+        border: 3px $base-color solid;
+
+        > .card-header {
+            background-color: $base-color;
+        }
+    }
+
+    &.card-tight {
+        > .card-content,
+        > .card-header > .card-header-title {
+            padding: 0.75rem 0.5rem;
+        }
+    }
+
+    &.card-modal {
+        background-color: $base-color-dark;
+
+        > .card-header > .card-header-title {
+            border-bottom: 1px solid $base-color-light;
+            padding-bottom: 0.75em;
+        }
+    }
+
+    &.is-primary {
+        background-color: $primary;
+    }
+
+    &.is-default {
+        background-color: $base-color-medium;
+    }
+
+    &.is-clickable:hover {
+        cursor: pointer;
     }
 }

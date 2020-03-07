@@ -15,20 +15,24 @@
             </div>
             <div class="navbar-menu fadeIn animated faster" :class="{'is-active':isMenuNavBarActive}">
                 <div class="navbar-end">
-                    <nav-bar-menu class="has-divider">
-                        <b-icon icon="bars"/>
-                        <span>Sample Menu</span>
+                    <nav-bar-menu class="has-user-avatar">
+                        <user-avatar/>
+                        <div class="is-user-name">
+                            <span>{{ userName }}</span>
+                        </div>
+
                         <div slot="dropdown" class="navbar-dropdown">
-                            <a class="navbar-item">
-                                <b-icon icon="sign-out-alt"/>
+                            <router-link class="navbar-item" :to="{name: 'user.profile'}">
+                                <b-icon icon="user" custom-size="default"></b-icon>
+                                <span>My Profile</span>
+                            </router-link>
+                            <hr class="navbar-divider">
+                            <a class="navbar-item" >
+                                <b-icon icon="sign-out-alt" custom-size="default"></b-icon>
                                 <span>Log Out</span>
                             </a>
                         </div>
                     </nav-bar-menu>
-                    <a class="navbar-item" title="Log out" @click="logout">
-                        <b-icon icon="sign-out-alt"/>
-                        <span>Log out</span>
-                    </a>
                 </div>
             </div>
         </nav>
@@ -38,11 +42,12 @@
 <script>
     import NavBarMenu from '@/components/Layout/NavBarMenu'
     import {mapState} from 'vuex';
+    import UserAvatar from "../General/UserAvatar";
 
     export default {
         name: 'NavBar',
         components: {
-            NavBarMenu
+            NavBarMenu, UserAvatar
         },
         data() {
             return {
@@ -58,7 +63,8 @@
             },
             ...mapState([
                 'isNavBarVisible',
-                'isAsideMobileExpanded'
+                'isAsideMobileExpanded',
+                'userName'
             ])
         },
         methods: {

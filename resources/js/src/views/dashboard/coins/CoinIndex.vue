@@ -4,12 +4,12 @@
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title">
-                    Total Strategies
+                    Coins
                 </p>
             </header>
             <div class="card-content">
                 <div class="content">
-                    <b-table :data="displayCoins" :columns="coinColumns" :striped="true" :hoverable="true" :loading="isLoading">
+                    <b-table :data="displayCoins" :columns="coinColumns" :striped="true" :hoverable="true" :loading="isLoading" @click="onClickCoin">
 
                         <template slot="empty">
                             <section class="section">
@@ -36,7 +36,6 @@
                         aria-current-label="Current page">
                     </b-pagination>
 
-                    {{ pagination }}
                 </div>
             </div>
         </div>
@@ -81,6 +80,7 @@
                     {
                         field: 'name',
                         label: 'Name',
+
                     },
                     {
                         field: 'num_markets',
@@ -114,6 +114,10 @@
             changePage(page) {
                 console.log('change page' + page);
                 this.$store.commit('setCoinPage', page);
+            },
+
+            onClickCoin(coin) {
+                this.$router.push({ name: 'coins.view', params: { symbol: coin.symbol } })
             }
             //
             // coinsSuccess(response) {
