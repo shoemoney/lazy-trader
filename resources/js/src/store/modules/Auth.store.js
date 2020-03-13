@@ -23,7 +23,7 @@ const actions = {
             'password': payload.password
         };
 
-        if (payload.action == 'register') {
+        if (payload.action === 'register') {
             actionUrl = '/register';
             data = {
                 'name': payload.name,
@@ -32,7 +32,7 @@ const actions = {
                 'password_confirmation': payload.password_confirmation
             }
         }
-        if (payload.action == 'password-reset') {
+        if (payload.action === 'password-reset') {
             actionUrl = '/password/reset';
             data = {
                 'token': payload.token,
@@ -52,7 +52,7 @@ const actions = {
                     axios.defaults.headers.common['Authorization'] = access_token;
 
                     commit('authSuccess', access_token);
-                    dispatch('userRequest');
+                    dispatch('User/userRequest', {}, {root: true});
                     resolve(access_token);
                 })
                 .catch((err) => {
@@ -76,7 +76,7 @@ const actions = {
                 });
         })
     }
-}
+};
 
 const mutations = {
     authRequest: (state) => {
@@ -89,7 +89,7 @@ const mutations = {
     },
     authError: (state, err) => {
         let errors = err.errors ? err.errors : {};
-        if (err.error == 'invalid_credentials' || err.error == 'invalid_grant') {
+        if (err.error === 'invalid_credentials' || err.error === 'invalid_grant') {
             errors.invalid_credentials = ['The user credentials were incorrect.'];
         }
 
@@ -100,9 +100,10 @@ const mutations = {
     authLogout: (state) => {
         state.access_token = '';
     }
-}
+};
 
 export default {
+    namespaced: true,
     state,
     getters,
     actions,

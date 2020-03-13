@@ -35,7 +35,7 @@
             }
         },
         computed: {
-            ...mapState([
+            ...mapState('Dashboard', [
                 'isAsideVisible',
                 'isAsideExpanded'
             ])

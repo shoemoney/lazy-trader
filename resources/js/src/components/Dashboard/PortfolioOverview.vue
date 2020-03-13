@@ -42,7 +42,7 @@
                             <p>
                                 <b-icon
                                     icon="times"
-                                    size="is-large">
+                                    custom-size="is-large">
                                 </b-icon>
                             </p>
                             <p>Nothing here.</p>

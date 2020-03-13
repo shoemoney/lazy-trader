@@ -1,6 +1,7 @@
 <?php namespace App\Services\Exchanges;
 
 use App\Services\Exchanges\Implementations\BinanceExchange;
+use App\Services\Exchanges\Implementations\CoinbaseProExchange;
 use App\Services\Exchanges\Implementations\GeminiExchange;
 
 class ExchangeFactory
@@ -8,7 +9,8 @@ class ExchangeFactory
 
     private static $exchanges = [
         BinanceExchange::class,
-        GeminiExchange::class
+        GeminiExchange::class,
+        CoinbaseProExchange::class
     ];
 
     public static function create($internalName): AbstractExchange

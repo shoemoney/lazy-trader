@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTotalCoinSupplyToCoinsTable extends Migration
+class AddCirculatingCoinSupplyToCoinsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddTotalCoinSupplyToCoinsTable extends Migration
     public function up()
     {
         Schema::table('coins', function (Blueprint $table) {
-            $table->float('total_coin_supply', 30, 10)->after('proof_type')->default(0);
+            $table->float('circulating_coin_supply', 30, 10)->after('total_coin_supply')->default(0);
         });
     }
 
@@ -26,7 +26,7 @@ class AddTotalCoinSupplyToCoinsTable extends Migration
     public function down()
     {
         Schema::table('coins', function (Blueprint $table) {
-            $table->dropColumn('total_coin_supply');
+            $table->dropColumn('circulating_coin_supply');
         });
     }
 }

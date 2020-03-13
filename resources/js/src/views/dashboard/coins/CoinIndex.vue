@@ -9,7 +9,8 @@
             </header>
             <div class="card-content">
                 <div class="content">
-                    <b-table :data="displayCoins" :columns="coinColumns" :striped="true" :hoverable="true" :loading="isLoading" @click="onClickCoin">
+                    <b-table :data="displayCoins" :columns="coinColumns" :striped="true" :hoverable="true"
+                             :loading="isLoading" @click="onClickCoin">
 
                         <template slot="empty">
                             <section class="section">
@@ -25,7 +26,7 @@
                     </b-table>
 
                     <b-pagination
-                        :total="coins.length"
+                        :total="coins ? coins.length : 0"
                         :per-page="pagination.limit"
                         :simple="true"
                         :current.sync="pagination.page"
@@ -43,13 +44,18 @@
 </template>
 
 <script>
+    import {mapGetters, mapState} from 'vuex';
 
     export default {
 
         computed: {
             displayCoins() {
-                let start = (this.$store.state.coins.pagination.page - 1) * this.$store.state.coins.pagination.limit;
-                let end = start + this.$store.state.coins.pagination.limit;
+
+                if(!this.coins)
+                    return [];
+
+                let start = (this.pagination.page - 1) * this.pagination.limit;
+                let end = start + this.pagination.limit;
 
                 return this.coins.slice(
                     start,
@@ -62,11 +68,15 @@
                     'Coins'
                 ]
             },
+            ...mapState('Coins', [
+                'coins',
+                'pagination'
+            ]),
+            ...mapGetters('Coins', [
+                'isLoading'
+            ])
         },
 
-        created() {
-            this.refreshCoins();
-        },
 
         data() {
             return {
@@ -90,44 +100,25 @@
                         field: 'price',
                         label: 'Current Agg Price'
                     }
-                ],
-                coins: [],
-                pagination: {},
-                isLoading: true
+                ]
             }
         },
 
 
         methods: {
-            async refreshCoins() {
-                console.log(this.$store.state.coins.coins);
-                if(this.$store.state.coins.coins === null) {
-                    console.log('attempt');
-                    await this.$store.dispatch('fetchCoins');
-                }
-
-                this.coins = this.$store.getters.getCoins;
-                this.pagination = this.$store.getters.getCoinPagination;
-                this.isLoading = false;
-            },
-
             changePage(page) {
-                console.log('change page' + page);
-                this.$store.commit('setCoinPage', page);
+                this.$store.commit('Coins/setCoinPage', page);
             },
 
             onClickCoin(coin) {
-                this.$router.push({ name: 'coins.view', params: { symbol: coin.symbol } })
+                this.$router.push({name: 'coins.view', params: {symbol: coin.symbol}})
             }
-            //
-            // coinsSuccess(response) {
-            //     this.isLoading = false;
-            //     this.coins = response.data;
-            // },
-            //
-            // coinsError(err) {
-            //     // TODO: Alert user that coins response failed.
-            // }
+        },
+
+        mounted() {
+            if (!this.coins) {
+                this.$store.dispatch('Coins/coinsRequest');
+            }
         }
     }
 </script>

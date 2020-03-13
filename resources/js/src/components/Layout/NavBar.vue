@@ -18,7 +18,7 @@
                     <nav-bar-menu class="has-user-avatar">
                         <user-avatar/>
                         <div class="is-user-name">
-                            <span>{{ userName }}</span>
+                            <span>{{ profile ? profile.email : '' }}</span>
                         </div>
 
                         <div slot="dropdown" class="navbar-dropdown">
@@ -61,24 +61,33 @@
             menuToggleMobileIcon() {
                 return this.isAsideMobileExpanded ? 'bars' : 'bars'
             },
-            ...mapState([
+            ...mapState('Dashboard', [
                 'isNavBarVisible',
-                'isAsideMobileExpanded',
-                'userName'
+                'isAsideMobileExpanded'
+            ]),
+            ...mapState('User', [
+                'profile'
             ])
         },
         methods: {
             menuToggleMobile() {
                 this.$store.commit('asideMobileStateToggle')
             },
+
             menuNavBarToggle() {
                 this.isMenuNavBarActive = (!this.isMenuNavBarActive)
             },
+
             logout() {
                 this.$store.dispatch('authLogout')
                     .then(() => {
                         this.$router.push('/')
                     })
+            }
+        },
+        mounted() {
+            if(!this.profile) {
+                this.$store.dispatch('User/userRequest');
             }
         }
     }

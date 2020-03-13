@@ -1,26 +1,21 @@
-<?php
-
-
-namespace App\Services\Exchanges\Implementations;
-
+<?php namespace App\Services\Exchanges\Implementations;
 
 use App\Models\Market;
 use App\Services\Exchanges\AbstractExchange;
 use App\Services\Pricing\Ohlc;
 use App\Services\Pricing\Ohlcv;
 
-class BinanceExchange extends AbstractExchange
+class CoinbaseProExchange extends AbstractExchange
 {
 
     /**
-     * @var \ccxt\binance
+     * @var \ccxt\coinbasepro
      */
     private $api;
 
     public function __construct()
     {
-        $this->api = new \ccxt\binance();
-        $this->api->loadMarkets();
+        $this->api = new \ccxt\coinbasepro();
     }
 
     /**
@@ -60,7 +55,7 @@ class BinanceExchange extends AbstractExchange
      */
     function minuteOhlcvLimit(): int
     {
-        return 1000;
+        return 300;
     }
 
     /**
@@ -68,6 +63,6 @@ class BinanceExchange extends AbstractExchange
      */
     static function internalName(): string
     {
-        return 'Binance';
+        return 'Coinbase';
     }
 }

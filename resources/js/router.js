@@ -25,19 +25,19 @@ import Profile from "./src/views/dashboard/profile/Profile";
 Vue.use(Router)
 
 const ifNotAuthenticated = (to, from, next) => {
-    if (!store.getters.isAuthenticated) {
+    if (!store.getters['Auth/isAuthenticated']) {
         next();
-        return
+        return;
     }
-    next('/dashboard')
+    next('/dashboard');
 };
 
 const ifAuthenticated = (to, from, next) => {
-    if (store.getters.isAuthenticated) {
+    if (store.getters['Auth/isAuthenticated']) {
         next();
-        return
+        return;
     }
-    next('/')
+    next('/');
 };
 
 

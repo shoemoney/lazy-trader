@@ -116,6 +116,12 @@ Artisan::command('lazy-trader:seed-coin-tags', function () {
     dispatch(new \App\Jobs\SeedCoinTagsFromName());
 })->describe('Creates coin tag data from name & symbol.');
 
-Artisan::command('lazy-trader:refresh-coin-ranks', function () {
-    dispatch(new \App\Jobs\RefreshCoinRanks());
-})->describe('Refreshes cache of coin ranks.');
+Artisan::command('lazy-trader:fetch-current-pricing {market}', function ($market) {
+    dispatch(new \App\Jobs\Pricing\FetchCurrentPricing(\App\Models\Market::findOrFail($market)));
+})->describe('Finds missing sequences in market pricing.');
+
+Artisan::command('lazy-trader:fetch-current-pricing-all', function () {
+    foreach (Market::whereActive(true)->get() as $market) {
+        dispatch(new \App\Jobs\Pricing\FetchCurrentPricing($market));
+    }
+})->describe('Finds missing sequences in market pricing.');

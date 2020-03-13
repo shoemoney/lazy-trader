@@ -5,7 +5,7 @@
     position: absolute;
     width: 100%;
 
-    .loading-overlay {
+    > .loading-overlay {
         background: #FFF;
         display: block;
         height: 100%;

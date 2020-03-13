@@ -22,8 +22,7 @@
                                     <div class="content has-text-grey has-text-centered">
                                         <p>
                                             <b-icon
-                                                icon="times"
-                                                size="is-large">
+                                                icon="times">
                                             </b-icon>
                                         </p>
                                         <p>Nothing here.</p>
@@ -78,8 +77,7 @@
                                     <div class="content has-text-grey has-text-centered">
                                         <p>
                                             <b-icon
-                                                icon="times"
-                                                size="is-large">
+                                                icon="times">
                                             </b-icon>
                                         </p>
                                         <p>Nothing here.</p>

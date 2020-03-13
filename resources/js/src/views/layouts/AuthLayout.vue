@@ -9,12 +9,29 @@
             </div>
 
             <router-view></router-view>
+
+        </div>
+
+        <div class="auth-loading-overlay" v-if="authStatus === 'loading'">
+            <div class="has-text-grey has-text-centered">
+                <p>
+                    <vue-fontawesome icon="sync" size="3x" spin></vue-fontawesome>
+                </p>
+                <br>
+                <p>Loading</p>
+            </div>
         </div>
     </section>
 </template>
 
 <script>
-    export default {
+    import {mapState} from 'vuex'
 
+    export default {
+        computed: {
+            ...mapState('Auth', [
+                'authStatus'
+            ])
+        }
     }
 </script>

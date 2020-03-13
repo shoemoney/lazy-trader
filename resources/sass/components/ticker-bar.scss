@@ -1,36 +1,55 @@
-.tickers {
-    display: flex;
-    flex-wrap: nowrap;
+.ticker-wrapper {
     max-width: 100%;
     overflow-x: auto;
-    transform: translate3d(0, 0, 0);
 
-    > .ticker {
-        animation: moveTicker 12s linear infinite;
-        border-radius: $radius-large;
-        flex: 0 0 auto;
+    .tickers {
+        animation: moveTicker 34s linear infinite;
+        align-content: center;
+        display: flex;
+        flex-wrap: nowrap;
+        max-width: 100%;
         transform: translate3d(0, 0, 0);
 
-        padding: 4px 8px;
+        > .ticker {
+            align-items: center;
+            border-radius: $radius-large;
+            display: flex;
+            flex: 0 0 auto;
 
-        &:not(:last-child) {
-            margin-right: 5px;
+            padding: 4px 8px;
+
+            &:not(:last-child) {
+                margin-right: 5px;
+            }
+
+            &:hover {
+                background-color: $base-color-light;
+                color: $base-color;
+            }
+
+            img:not(:last-child), span:not(:last-child) {
+                margin-right: 0.5rem;
+            }
+
+            img {
+                border-radius: 50%;
+                max-height: 1rem;
+                max-width: 1rem;
+            }
+        }
+
+        &::-webkit-scrollbar {
+            display: none;
         }
 
         &:hover {
-            background-color: $base-color-light;
-            color: $base-color;
+            animation-play-state: paused;
         }
-    }
-
-    &::-webkit-scrollbar {
-        display: none;
     }
 }
 
-
 @keyframes moveTicker {
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-66.6666%);
     }
 }

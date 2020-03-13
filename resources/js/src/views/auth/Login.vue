@@ -12,7 +12,7 @@
         </b-field>
 
         <b-field label="Password">
-            <b-input type="password" required v-model="password" />
+            <b-input type="password" required v-model="password"/>
         </b-field>
 
         <b-checkbox v-model="remember">Remember Me</b-checkbox>
@@ -25,31 +25,32 @@
         <router-link :to="{ name: 'password-email' }">Forgot Password</router-link>
 
         <p>
-            Don't have an account? <router-link :to="{ name: 'register' }">Register</router-link>
+            Don't have an account?
+            <router-link :to="{ name: 'register' }">Register</router-link>
         </p>
-
     </form>
 
 </template>
 
 <script>
+
     export default {
         data() {
             return {
                 'email': '',
                 'password': '',
-                'remember': false,
+                'remember': false
             }
         },
         computed: {
             authErrors() {
-                return this.$store.getters.authErrors;
+                return this.$store.getters['Auth/authErrors'];
             }
         },
         methods: {
             login: function () {
                 const {email, password, remember} = this;
-                this.$store.dispatch('authRequest', {email, password, remember})
+                this.$store.dispatch('Auth/authRequest', {email, password, remember})
                     .then(() => {
                         this.$router.push('/dashboard')
                     })

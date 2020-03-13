@@ -24,6 +24,7 @@ Route::middleware('auth:api')->namespace('Api')->group(function() {
         return $request->user();
     });
 
+    Route::get('/coins/top', 'CoinsController@top');
     Route::resource('/coins', 'CoinsController');
 });
 

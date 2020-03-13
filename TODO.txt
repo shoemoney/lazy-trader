@@ -1,9 +1,18 @@
+- Exchanges
+    - Pull liquidity, volume data from coinmarketcap.
+- Schedule jobs
+- Laravel Echo for resetting market cap.
+- Connect Laravel Echo with web socket server.
+- Add logging for "Potential Errors"
+    - Importing "Current Pricing" and finding 0 records could mean that market is closed.
 - Frontend
     - Charting of Prices in each Market
     - Aside submenu stays open when submenu item is selected.
 - Missing Data Report
     - Attempt to find when a market started.
 - Add trade volume to pricing data.
+- Market Cap per fiat currency.
+- Historical Market Cap
 - Trading ( Requirements needed )
 - Store social media data for each coin.
 - Add relevancy score to tags.

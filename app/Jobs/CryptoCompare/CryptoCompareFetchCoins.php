@@ -4,6 +4,7 @@ namespace App\Jobs\CryptoCompare;
 
 use App\Integrations\CryptoCompareApi;
 use App\Models\Coin;
+use App\Services\Coins\CoinMarketCapService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -32,7 +33,7 @@ class CryptoCompareFetchCoins implements ShouldQueue
                 continue;
             }
 
-            Coin::updateOrCreate([
+            $coinModel = Coin::updateOrCreate([
                 'symbol' => $coin->Symbol
             ], [
                 'name' => $coin->CoinName,
@@ -41,11 +42,13 @@ class CryptoCompareFetchCoins implements ShouldQueue
                 'proof_type' => $coin->ProofType,
                 'is_trading' => $coin->IsTrading,
                 'total_coin_supply' => $coin->TotalCoinSupply !== 'N/A' ? intval(str_replace(' ', '', $coin->TotalCoinSupply)) : 0,
+                'circulating_coin_supply' => isset($coin->TotalCoinsMined) && $coin->TotalCoinsMined !== 'N/A' ? intval(str_replace(' ', '', $coin->TotalCoinsMined)) : 0,
                 'weiss_rating' => !empty($coin->Rating->Weiss->Rating) ? $coin->Rating->Weiss->Rating : null,
                 'weiss_technology_adoption_rating' => !empty($coin->Rating->Weiss->TechnologyAdoptionRating) ? $coin->Rating->Weiss->TechnologyAdoptionRating : null,
                 'weiss_market_performance_rating' => !empty($coin->Rating->Weiss->MarketPerformanceRating) ? $coin->Rating->Weiss->MarketPerformanceRating : null
             ]);
 
+            CoinMarketCapService::wipeMarketCap($coinModel);
         }
     }
 }

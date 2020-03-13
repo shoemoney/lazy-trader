@@ -5,6 +5,7 @@ namespace App\Jobs\CryptoCompare;
 use App\Integrations\CryptoCompareApi;
 use App\Models\Market;
 use App\Models\MarketPrice;
+use App\Services\Coins\CoinMarketCapService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -79,6 +80,12 @@ class CryptoCompareFetchPricingForMarket implements ShouldQueue
                     'low' => $price->low,
                     'volume' => $price->volumeto
                 ]);
+            }
+
+            // Refresh the market cap for coin.
+            if($this->market->coinPair->quote->is_fiat_currency && !$this->historical) {
+                CoinMarketCapService::wipeMarketCap($this->market->coinPair->base);
+                CoinMarketCapService::marketCap($this->market->coinPair->base);
             }
         } catch (\Exception $e) {
             \Log::error($e->getMessage());

@@ -1,75 +1,15 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import createLogger from 'vuex/dist/logger';
+import modules from './modules';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-import user from './modules/user';
-import auth from './modules/auth';
-import coins from './modules/coins';
+const debug = process.env.NODE_ENV !== 'production';
 
 export default new Vuex.Store({
-    state: {
-        /* NavBar */
-        isNavBarVisible: true,
+    modules: modules,
 
-        /* Aside */
-        isAsideVisible: true,
-        isAsideExpanded: true,
-        isAsideMobileExpanded: false,
-
-        userName: 'Test User'
-    },
-    mutations: {
-        /* A fit-them-all commit */
-        basic (state, payload) {
-            state[payload.key] = payload.value
-        },
-
-        /* Aside Mobile */
-        asideMobileStateToggle (state, payload = null) {
-            const htmlClassName = 'has-aside-mobile-expanded'
-
-            let isShow
-
-            if (payload !== null) {
-                isShow = payload
-            } else {
-                isShow = !state.isAsideMobileExpanded
-            }
-
-            if (isShow) {
-                document.documentElement.classList.add(htmlClassName)
-            } else {
-                document.documentElement.classList.remove(htmlClassName)
-            }
-
-            state.isAsideMobileExpanded = isShow
-        },
-
-        /* Aside Desktop Expanded */
-        asideExpandedStateToggle (state, payload = null) {
-            const htmlClassName = 'has-aside-expanded'
-
-            let isShow
-
-            if (payload !== null) {
-                isShow = payload
-            } else {
-                isShow = !state.isAsideExpanded
-            }
-
-            if (isShow) {
-                document.documentElement.classList.add(htmlClassName)
-            } else {
-                document.documentElement.classList.remove(htmlClassName)
-            }
-
-            state.isAsideExpanded = isShow
-        }
-    },
-    modules: {
-        user: user,
-        auth: auth,
-        coins: coins
-    }
-})
+    strict: debug,
+    plugins: debug? [ createLogger() ] : [],
+});

@@ -39,16 +39,17 @@ class MarketPriceGapRecovery implements ShouldQueue
     {
         try {
             $exchangeApi = ExchangeFactory::create($this->market->exchange->internal_name);
+            $maxRecords = $exchangeApi->minuteOhlcvLimit();
 
             foreach ($this->market->priceGaps as $gap) {
 
                 $totalMinutes = ($gap->gap_timestamp_end / 60) - ($gap->gap_timestamp_start / 60);
 
-                for($i = 0; $i < $totalMinutes; $i += 500) {
+                for($i = 0; $i < $totalMinutes; $i += $maxRecords) {
 
-                    $data = $exchangeApi->minuteOhlcv($this->market, $gap->gap_timestamp_start + ($i * 60), $gap->gap_timestamp_start + ($i * 60) + (500 * 60));
+                    $data = $exchangeApi->minuteOhlcv($this->market, $gap->gap_timestamp_start + ($i * 60), $gap->gap_timestamp_start + ($i * 60) + ($maxRecords * 60));
 
-                    \Log::info($this->market->name . ' attempting recovery from ' . ($gap->gap_timestamp_start + ($i * 60)) . ' to ' . ($gap->gap_timestamp_start + ($i * 60) + (500 * 60)) . ' found ' . count($data) . ' rows');
+                    \Log::info($this->market->name . ' attempting recovery from ' . ($gap->gap_timestamp_start + ($i * 60)) . ' to ' . ($gap->gap_timestamp_start + ($i * 60) + ($maxRecords * 60)) . ' found ' . count($data) . ' rows');
 
                     foreach ($data as $ohlcv) {
                         try {
@@ -73,7 +74,7 @@ class MarketPriceGapRecovery implements ShouldQueue
                 $gap->delete();
 
                 // Re-run our analysis to verify we have good data.
-                dispatch(new MarketVolumeGapAnalysis($this->market, $gap->gap_timestamp_start, $gap->gap_timestamp_end + 60, false));
+                dispatch(new MarketPriceGapAnalysis($this->market, $gap->gap_timestamp_start, $gap->gap_timestamp_end + 60, false));
             }
         } catch (\Exception $e) {
             \Log::info('Unable to process market recovery');

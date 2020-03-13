@@ -2,13 +2,13 @@ import Vue from 'vue'
 
 const state = {
     status: '',
-    profile: {}
-}
+    profile: null
+};
 
 const getters = {
     getProfile: state => state.profile,
     isProfileLoaded: state => !!state.profile.name,
-}
+};
 
 const actions = {
     userRequest: ({commit, dispatch}) => {
@@ -20,10 +20,10 @@ const actions = {
             .catch((err) => {
                 commit('userError');
                 // if resp is unauthorized, logout, to
-                dispatch('authLogout')
+                dispatch('Auth/authLogout', {}, {root: true})
             })
     },
-}
+};
 
 const mutations = {
     userRequest: (state) => {
@@ -31,16 +31,17 @@ const mutations = {
     },
     userSuccess: (state, resp) => {
         state.status = 'success';
-        Vue.set(state, 'profile', resp);
+        state.profile = resp;
     },
     userError: (state) => {
         state.status = 'error';
     }
-}
+};
 
 export default {
+    namespaced: true,
     state,
     getters,
     actions,
-    mutations,
+    mutations
 }

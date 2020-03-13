@@ -23,6 +23,13 @@ abstract class AbstractExchange
     abstract function minuteOhlcv(Market $market, $startTimestamp = null, $endTimestamp = null): iterable;
 
     /**
+     * Returns the maximum records returned by minuteOhlcv.
+     *
+     * @return int
+     */
+    abstract function minuteOhlcvLimit(): int;
+
+    /**
      * @return string
      */
     abstract static function internalName(): string;
