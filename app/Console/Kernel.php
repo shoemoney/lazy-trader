@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('lazy-trader:fetch-current-pricing-all')->hourly();
-        $schedule->command('cryptocompare:fetch-prices')->hourly();
+        $schedule->command('cryptocompare:fetch-prices --all')->hourly();
         $schedule->command('cryptocompare:fetch-news')->daily();
         $schedule->command('cryptocompare:fetch-news-by-source')->daily();
         $schedule->command('cryptocompare:fetch-exchanges')->weekly();
