@@ -62,11 +62,21 @@ Artisan::command('cryptocompare:fetch-historical-prices-market {market}', functi
 
 
 Artisan::command('cryptocompare:fetch-prices {exchange?} {--all}', function ($exchange = null) {
-    dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchPricing(
-        \App\Models\Exchange::whereInternalName($exchange)->firstOrFail(),
-        null,
-        false
-    ));
+    if($this->option('all')) {
+        foreach(\App\Models\Exchange::all() as $e) {
+            dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchPricing(
+                $e,
+                null,
+                true
+            ));
+        }
+    } else {
+        dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchPricing(
+            \App\Models\Exchange::whereInternalName($exchange)->firstOrFail(),
+            null,
+            false
+        ));
+    }
 })->describe('Fetches current prices from CryptoCompare');
 
 Artisan::command('cryptocompare:fetch-prices-market {market}', function ($market) {
