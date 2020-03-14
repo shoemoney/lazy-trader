@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "aws/aws-sdk-php": "^3.133",
         "ccxt/ccxt": "^1.22",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.0",

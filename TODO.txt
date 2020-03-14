@@ -1,6 +1,7 @@
 - Exchanges
     - Pull liquidity, volume data from coinmarketcap.
 - Schedule jobs
+- Market Prices unsigned floats
 - Laravel Echo for resetting market cap.
 - Connect Laravel Echo with web socket server.
 - Add logging for "Potential Errors"

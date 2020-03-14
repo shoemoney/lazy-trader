@@ -6,6 +6,10 @@ namespace App\Integrations;
 
 use GuzzleHttp\Client;
 
+
+/**
+ * TODO: Change to L7 HTTP Client
+ */
 class CryptoCompareApi
 {
     public function __construct()
@@ -30,6 +34,15 @@ class CryptoCompareApi
         return $this->get('/data/exchanges/general');
     }
 
+    public function hourlyExchangeVol($exchange = null, $tSym = null, $limit = 1000)
+    {
+        return $this->get('/data/exchange/histohour', [
+            'e' => $exchange,
+            'tsym' => $tSym,
+            'limit' => $limit
+        ]);
+    }
+
     public function markets($exchange = null)
     {
         return $this->get('/data/v2/pair/mapping/exchange', [
@@ -39,7 +52,7 @@ class CryptoCompareApi
 
     public function latestNews($lTs = null, $source = 'ALL_NEWS_FEEDS')
     {
-        if($lTs === null) {
+        if ($lTs === null) {
             $lTs = time();
         }
         return $this->get('/data/v2/news/', [

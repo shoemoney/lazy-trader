@@ -22,6 +22,10 @@ Artisan::command('cryptocompare:fetch-exchanges', function () {
     dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchExchanges());
 })->describe('Fetches exchanges from CryptoCompare');
 
+Artisan::command('cryptocompare:fetch-exchange-volume', function () {
+    dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchExchangeVolume());
+})->describe('Fetches exchange volumes from CryptoCompare');
+
 Artisan::command('cryptocompare:fetch-latest-news', function () {
     dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchNewsArticles());
 })->describe('Fetches latest news from CryptoCompare');
