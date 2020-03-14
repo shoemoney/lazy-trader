@@ -139,3 +139,13 @@ Artisan::command('lazy-trader:fetch-current-pricing-all', function () {
         dispatch(new \App\Jobs\Pricing\FetchCurrentPricing($market));
     }
 })->describe('Finds missing sequences in market pricing.');
+
+Artisan::command('lazy-trader-sockets:gemini', function () {
+    $gs = new \App\Services\Exchanges\Implementations\Sockets\GeminiSocket();
+    $gs->start();
+})->describe('Finds missing sequences in market pricing.');
+
+Artisan::command('lazy-trader-sockets:binance', function () {
+    $gs = new \App\Services\Exchanges\Implementations\Sockets\BinanceSocket();
+    $gs->start();
+})->describe('Finds missing sequences in market pricing.');
