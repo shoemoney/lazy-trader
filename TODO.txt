@@ -16,8 +16,6 @@
 - Add relevancy score to tags.
 - Get coin color into database.
 - Market Type: Spot, Margin
-- Aggregate Pricing for each CoinPair
 - Export Data (Low)
-- Add .env to price streamer
 - Create production environment.
 

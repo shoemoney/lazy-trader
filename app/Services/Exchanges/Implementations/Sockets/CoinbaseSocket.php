@@ -7,6 +7,9 @@ use Carbon\Carbon;
 use Ratchet\Client\WebSocket;
 use Ratchet\RFC6455\Messaging\MessageInterface;
 
+/**
+ * TODO: Unknown why, but it seems to stop the socket after about a minute.
+ */
 class CoinbaseSocket extends BaseExchangeSocket
 {
     use MarketCache, ExchangeCache;
@@ -17,7 +20,7 @@ class CoinbaseSocket extends BaseExchangeSocket
     {
         $data = json_decode($msg);
 
-        if($data->type === 'match') {
+        if($data->type === 'match' || $data->type === 'last_match') {
             $market = $this->findMarketBySymbol(str_replace('-', '', $data->product_id));
             $time = intval((Carbon::parse($data->time)->getTimestamp() / 60)) * 60;
 
@@ -54,6 +57,10 @@ class CoinbaseSocket extends BaseExchangeSocket
                     [
                         'name' => 'matches',
                         'product_ids' => [$m->coinPair->name_seperated_coinbase]
+                    ],
+                    [
+                        'name' => 'heartbeat',
+                        'product_ids' => [$m->coinPair->name_seperated_coinbase]
                     ]
                 ]
             ];
@@ -75,6 +82,6 @@ class CoinbaseSocket extends BaseExchangeSocket
 
     public function handleConnectionException()
     {
-
+        \Log::info('exception');
     }
 }
