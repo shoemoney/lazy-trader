@@ -82,11 +82,11 @@ class CryptoCompareFetchPricingForMarket implements ShouldQueue
                 ]);
             }
 
-            // Refresh the market cap for coin.
-            if($this->market->coinPair->quote->is_fiat_currency && !$this->historical) {
-                CoinMarketCapService::wipeMarketCap($this->market->coinPair->base);
-                CoinMarketCapService::marketCap($this->market->coinPair->base);
-            }
+//            // Refresh the market cap for coin.
+//            if($this->market->coinPair->quote->is_fiat_currency && !$this->historical) {
+//                CoinMarketCapService::wipeMarketCap($this->market->coinPair->base);
+//                CoinMarketCapService::marketCap($this->market->coinPair->base);
+//            }
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
         }
