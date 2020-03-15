@@ -5,12 +5,16 @@ namespace App\Services\Exchanges\Implementations\Sockets;
 
 
 use App\Models\Exchange;
+use App\Services\Exchanges\Implementations\Sockets\Traits\ExchangeCache;
+use App\Services\Exchanges\Implementations\Sockets\Traits\MarketCache;
 use Ratchet\Client\WebSocket;
 use Ratchet\RFC6455\Messaging\MessageInterface;
 
 class GeminiSocket extends BaseExchangeSocket
 {
+    use MarketCache, ExchangeCache;
 
+    public $exchangeInternalName = 'Gemini';
 
     public function handleMessage(MessageInterface $msg)
     {
@@ -18,13 +22,13 @@ class GeminiSocket extends BaseExchangeSocket
 
         if($data->type === 'candles_1m_updates') {
             \Log::info('Received data for ' . $data->symbol);
-            $this->importCandles($data->symbol, $data->changes);
+            $this->importCandles($this->findMarketBySymbol($data->symbol), $data->changes);
         }
     }
 
     public function handleConnectionOpened()
     {
-        $exchange = Exchange::whereName('Gemini')->first();
+        $exchange = $this->getExchange();
 
         foreach($exchange->markets as $m) {
             $message = [
@@ -37,6 +41,7 @@ class GeminiSocket extends BaseExchangeSocket
                 ]
             ];
 
+            $this->addToMarketCache($m);
             $this->sendMessage(json_encode($message));
         }
 
@@ -56,11 +61,5 @@ class GeminiSocket extends BaseExchangeSocket
     public function handleConnectionException()
     {
 
-    }
-
-
-    public function getExchange()
-    {
-        return Exchange::whereInternalName('Gemini')->first();
     }
 }

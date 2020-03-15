@@ -4,7 +4,7 @@
 namespace App\Services\Exchanges\Implementations\Sockets;
 
 
-use App\Models\MarketPrice;
+use App\Models\Market;
 use Ratchet\Client\Connector as ClientConnector;
 use Ratchet\Client\WebSocket;
 use Ratchet\RFC6455\Messaging\MessageInterface;
@@ -16,7 +16,7 @@ use React\Socket\Connector;
  * - Market caches for exchange
  * - Create async job for import
  */
-abstract class BaseExchangeSocket
+abstract class BaseExchangeSocket extends BaseExchangeSocketJob
 {
 
     /**
@@ -24,16 +24,10 @@ abstract class BaseExchangeSocket
      */
     private $conn;
 
-    public function start()
+    public function start(): void
     {
-        $loop = Factory::create();
-        $reactConnector = new Connector($loop, [
-            'dns' => '8.8.8.8',
-            'timeout' => 10
-        ]);
-        $connector = new ClientConnector($loop, $reactConnector);
 
-        $connector($this->getConnectionUrl())
+        \Ratchet\Client\connect($this->getConnectionUrl())
             ->then(function (WebSocket $conn) {
                 $conn->on('message', function (MessageInterface $msg) use ($conn) {
                     $this->handleMessage($msg);
@@ -43,23 +37,18 @@ abstract class BaseExchangeSocket
                     $this->connectionClosed($code, $reason);
                 });
 
-
                 $this->connectionOpened($conn);
-            }, function (\Exception $e) use ($loop) {
+            }, function (\Exception $e) {
                 \Log::error($e);
                 $this->handleConnectionException();
-                $loop->stop();
             });
 
-        $loop->run();
     }
 
     private function connectionOpened(WebSocket $conn)
     {
         $this->conn = $conn;
         $this->handleConnectionOpened();
-
-
     }
 
     private function connectionClosed($code, $reason)
@@ -74,13 +63,8 @@ abstract class BaseExchangeSocket
         $this->conn->send($message);
     }
 
-    public function importCandles($symbol, $changes, $reduceTimestamp = true)
+    public function importCandles(Market $market, $changes, $reduceTimestamp = true)
     {
-        $exchange = $this->getExchange();
-        $market = $exchange->markets()->get()->first(function($val) use ($symbol) {
-            return ($val->coinPair->base->symbol . $val->coinPair->quote->symbol) === $symbol;
-        });
-
         foreach($changes as $data) {
             $market->prices()->updateOrCreate([
                 'timestamp' => $reduceTimestamp ? $data[0] / 1000 : $data[0]
@@ -101,5 +85,4 @@ abstract class BaseExchangeSocket
     public abstract function handleMessage(MessageInterface $msg);
 
     public abstract function getConnectionUrl();
-    public abstract function getExchange();
 }

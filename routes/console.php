@@ -149,3 +149,13 @@ Artisan::command('lazy-trader-sockets:binance', function () {
     $gs = new \App\Services\Exchanges\Implementations\Sockets\BinanceSocket();
     $gs->start();
 })->describe('Finds missing sequences in market pricing.');
+
+Artisan::command('lazy-trader-sockets:bitfinex', function () {
+    $gs = new \App\Services\Exchanges\Implementations\Sockets\BitfinexSocket();
+    $gs->start();
+})->describe('Finds missing sequences in market pricing.');
+
+Artisan::command('lazy-trader-sockets:coinbase', function () {
+    $gs = new \App\Services\Exchanges\Implementations\Sockets\CoinbaseSocket();
+    $gs->start();
+})->describe('Finds missing sequences in market pricing.');

@@ -13,9 +13,15 @@ class CoinPair extends Model
     {
         return $this->base->symbol . $this->quote->symbol;
     }
+
     public function getNameSeperatedAttribute()
     {
         return $this->base->symbol . '/' . $this->quote->symbol;
+    }
+
+    public function getNameSeperatedCoinbaseAttribute()
+    {
+        return $this->base->symbol . '-' . $this->quote->symbol;
     }
 
     public function quote()
