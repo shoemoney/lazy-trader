@@ -28,4 +28,10 @@ Route::middleware('auth:api')->namespace('Api')->group(function() {
     Route::resource('/coins', 'CoinsController');
 });
 
+Route::any('test', function(){
+    $user =  \App\Models\User::findOrFail(1);
+    $user->notify(new \App\Notifications\TestBroadcastNotification());
+
+    return response()->json(['success' => true]);
+});
 

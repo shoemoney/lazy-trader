@@ -5,17 +5,20 @@
         <div class="content-wrapper">
             <router-view></router-view>
         </div>
+        <notifications/>
     </div>
 </template>
 
 <script>
     import NavBar from '@/components/Layout/NavBar';
     import AsideMenu from "@/components/Layout/AsideMenu";
+    import Notifications from "../../components/Layout/Notifications";
 
     export default {
         components: {
             AsideMenu,
-            NavBar
+            NavBar,
+            Notifications
         },
 
         computed: {

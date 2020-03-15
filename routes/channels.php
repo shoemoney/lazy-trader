@@ -11,6 +11,12 @@
 |
 */
 
-Broadcast::channel('App.User.{id}', function ($user, $id) {
+use App\Models\Coin;
+
+Broadcast::channel('AggregatePriceChange.{coin}', function ($user, Coin $coin) {
+    return true;
+}, ['guards' => ['web', 'api']]);
+
+Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
-});
+}, ['guards' => ['web', 'api']]);

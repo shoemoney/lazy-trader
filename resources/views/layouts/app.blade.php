@@ -7,6 +7,8 @@
 
         <title>Lazy Trader</title>
 
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
     </head>

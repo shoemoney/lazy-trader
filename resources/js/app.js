@@ -14,6 +14,19 @@ let bearer = Cookies.get('access_token');
 if (bearer) {
     window.axios.defaults.headers.common['Authorization'] = bearer;
 }
+import Pusher from "pusher-js";
+import Echo from "laravel-echo";
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '161c2a08817d4bee83e7', // TODO: Get from page.
+    cluster: 'us2',
+    forceTLS: true,
+    auth:        {
+        headers: {
+            Authorization: bearer,
+        },
+    },
+});
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 // internal icons
