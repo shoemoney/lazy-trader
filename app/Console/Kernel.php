@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('cryptocompare:fetch-news')->daily();
         $schedule->command('cryptocompare:fetch-news-by-source')->daily();
         $schedule->command('cryptocompare:fetch-exchanges')->weekly();
-        $schedule->command('cryptocompare:fetch-exchange-volume')->twiceDaily();
+        $schedule->command('cryptocompare:fetch-exchange-volume')->daily();
         $schedule->command('cryptocompare:fetch-markets')->weekly();
         $schedule->command('cryptocompare:fetch-news-sources')->weekly();
     }
