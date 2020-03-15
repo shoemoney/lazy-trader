@@ -20,18 +20,18 @@ Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail
 Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset');
 
 Route::middleware('auth:api')->namespace('Api')->group(function() {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+//    Route::get('/user', function (Request $request) {
+//        return $request->user();
+//    });
 
     Route::get('/coins/top', 'CoinsController@top');
     Route::resource('/coins', 'CoinsController');
 });
 
-Route::any('test', function(){
-    $user =  \App\Models\User::findOrFail(1);
-    $user->notify(new \App\Notifications\TestBroadcastNotification());
-
-    return response()->json(['success' => true]);
-});
+//Route::any('test', function(){
+//    $user =  \App\Models\User::findOrFail(1);
+//    $user->notify(new \App\Notifications\TestBroadcastNotification());
+//
+//    return response()->json(['success' => true]);
+//});
 
