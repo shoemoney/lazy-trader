@@ -64,12 +64,12 @@ class CryptoCompareFetchMarkets implements ShouldQueue
         $quoteCoin = Coin::whereSymbol($pair->tsym)->first();
 
         if(empty($baseCoin)) {
-            \Log::info("Unable to find coin: " . $pair->tsym);
+            \Log::info("Unable to find coin: " . $pair->fsym);
             return null;
         }
 
         if(empty($quoteCoin)) {
-            \Log::info("Unable to find coin: " . $pair->fsym);
+            \Log::info("Unable to find coin: " . $pair->tsym);
             return null;
         }
 
