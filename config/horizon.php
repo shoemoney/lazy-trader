@@ -155,6 +155,7 @@ return [
                 'minProcesses' => 1,
                 'maxProcesses' => 30,
                 'tries' => 3,
+                'timeout' => 3600
             ],
         ],
 
