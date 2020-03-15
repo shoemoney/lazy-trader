@@ -52,7 +52,7 @@ Artisan::command('cryptocompare:fetch-historical-prices {exchange?} {--all}', fu
     dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchPricing(
         \App\Models\Exchange::whereInternalName($exchange)->firstOrFail(),
         null,
-        false,
+        true,
         true
     ));
 })->describe('Fetches historical prices from CryptoCompare');
