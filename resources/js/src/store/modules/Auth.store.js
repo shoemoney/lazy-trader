@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie'
 import Errors from '@base/modules/errors';
 
+console.log(Cookies.get('access_token'));
+
 const state = {
     access_token: Cookies.get('access_token') || '',
     status: '',
@@ -48,6 +50,8 @@ const actions = {
             axios.post(actionUrl, data)
                 .then((resp) => {
                     let access_token = 'Bearer ' + resp.data.access_token;
+
+                    console.log('access token: ' + access_token);
                     Cookies.set('access_token', access_token, {expires: remember ? 365 : 1});
                     axios.defaults.headers.common['Authorization'] = access_token;
 
@@ -56,6 +60,7 @@ const actions = {
                     resolve(access_token);
                 })
                 .catch((err) => {
+                    console.log('auth failure');
                     commit('authError', err.response.data);
                     Cookies.remove('access_token');
                     reject(err);

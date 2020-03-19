@@ -2,6 +2,8 @@
 
 use App\Models\Market;
 use App\Services\Exchanges\AbstractExchange;
+use App\Services\Exchanges\Implementations\Sockets\BaseExchangeSocketJob;
+use App\Services\Exchanges\Implementations\Sockets\CoinbaseSocket;
 use App\Services\Pricing\Ohlc;
 use App\Services\Pricing\Ohlcv;
 
@@ -64,5 +66,13 @@ class CoinbaseProExchange extends AbstractExchange
     static function internalName(): string
     {
         return 'Coinbase';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    function socket(): BaseExchangeSocketJob
+    {
+        return new CoinbaseSocket();
     }
 }

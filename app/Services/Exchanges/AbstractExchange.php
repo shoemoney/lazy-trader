@@ -1,6 +1,7 @@
 <?php namespace App\Services\Exchanges;
 
 use App\Models\Market;
+use App\Services\Exchanges\Implementations\Sockets\BaseExchangeSocketJob;
 use App\Services\Pricing\Ohlc;
 use App\Services\Pricing\Ohlcv;
 
@@ -33,4 +34,9 @@ abstract class AbstractExchange
      * @return string
      */
     abstract static function internalName(): string;
+
+    /**
+     * @return BaseExchangeSocketJob
+     */
+    abstract function socket(): BaseExchangeSocketJob;
 }

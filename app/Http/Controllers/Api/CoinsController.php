@@ -13,6 +13,7 @@ class CoinsController extends Controller
     {
         return Coin::select(['id', 'name', 'symbol', 'is_trading', 'image_url'])
             ->where('is_fiat_currency', false)
+            ->orderByRank()
             ->get();
     }
 

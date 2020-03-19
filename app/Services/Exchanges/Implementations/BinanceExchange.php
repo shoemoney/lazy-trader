@@ -6,6 +6,8 @@ namespace App\Services\Exchanges\Implementations;
 
 use App\Models\Market;
 use App\Services\Exchanges\AbstractExchange;
+use App\Services\Exchanges\Implementations\Sockets\BaseExchangeSocketJob;
+use App\Services\Exchanges\Implementations\Sockets\BinanceSocket;
 use App\Services\Pricing\Ohlc;
 use App\Services\Pricing\Ohlcv;
 
@@ -69,5 +71,13 @@ class BinanceExchange extends AbstractExchange
     static function internalName(): string
     {
         return 'Binance';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    function socket(): BaseExchangeSocketJob
+    {
+        return new BinanceSocket();
     }
 }

@@ -2,6 +2,8 @@
 
 use App\Models\Market;
 use App\Services\Exchanges\AbstractExchange;
+use App\Services\Exchanges\Implementations\Sockets\BaseExchangeSocketJob;
+use App\Services\Exchanges\Implementations\Sockets\GeminiSocket;
 use App\Services\Pricing\Ohlc;
 use App\Services\Pricing\Ohlcv;
 
@@ -71,4 +73,11 @@ class GeminiExchange extends AbstractExchange
         return \Http::get(self::$API_BASE . '/candles/' . $market->coinPair->name . '/1m')->json();
     }
 
+    /**
+     * @inheritDoc
+     */
+    function socket(): BaseExchangeSocketJob
+    {
+        return new GeminiSocket();
+    }
 }
