@@ -159,3 +159,18 @@ Artisan::command('lazy-trader-sockets:coinbase', function () {
     $gs = new \App\Services\Exchanges\Implementations\Sockets\CoinbaseSocket();
     $gs->start();
 })->describe('Finds missing sequences in market pricing.');
+
+Artisan::command('lazy-trader-sockets:kraken', function () {
+    $gs = new \App\Services\Exchanges\Implementations\Sockets\KrakenSocket();
+    $gs->start();
+})->describe('Finds missing sequences in market pricing.');
+
+Artisan::command('lazy-trader-sockets:bitstamp', function () {
+    $gs = new \App\Services\Exchanges\Implementations\Sockets\BitstampSocket();
+    $gs->start();
+})->describe('Finds missing sequences in market pricing.');
+
+Artisan::command('lazy-trader-sockets:okex', function () {
+    $gs = new \App\Services\Exchanges\Implementations\Sockets\OkexSocket();
+    $gs->start();
+})->describe('Finds missing sequences in market pricing.');

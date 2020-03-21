@@ -12,26 +12,27 @@ use Ratchet\RFC6455\Messaging\MessageInterface;
 /**
  * TODO: Unknown why, but it seems to stop the socket after about a minute.
  */
-class CoinbaseSocket extends BaseExchangeSocket
+class BitstampSocket extends BaseExchangeSocket
 {
     use MarketCache, ExchangeCache;
 
-    public $exchangeInternalName = 'Coinbase';
+    public $exchangeInternalName = 'Bitstamp';
 
     public function handleMessage(MessageInterface $msg)
     {
         $data = json_decode($msg);
 
-        if($data->type === 'match' || $data->type === 'last_match') {
-            $market = $this->findMarketBySymbol(str_replace('-', '', $data->product_id));
-            $time = $this->nearestMinute(Carbon::parse($data->time)->getTimestamp());
+        \Log::info($msg->__toString());
+        if ($data->event === 'trade') {
+            $market = $this->findMarketBySymbol(explode('_', $data->channel)[2]);
 
             $this->importTrade(
                 $market,
-                $time,
-                floatval($data->price),
-                floatval($data->size)
+                $this->nearestMinute($data->data->timestamp),
+                floatval($data->data->price),
+                floatval($data->data->amount)
             );
+
         }
     }
 
@@ -39,18 +40,11 @@ class CoinbaseSocket extends BaseExchangeSocket
     {
         $exchange = $this->getExchange();
 
-        foreach($exchange->markets as $m) {
+        foreach ($exchange->markets as $m) {
             $message = [
-                'type' => 'subscribe',
-                'channels' => [
-                    [
-                        'name' => 'matches',
-                        'product_ids' => [$m->coinPair->name_seperated_coinbase]
-                    ],
-                    [
-                        'name' => 'heartbeat',
-                        'product_ids' => [$m->coinPair->name_seperated_coinbase]
-                    ]
+                'event' => 'bts:subscribe',
+                'data' => [
+                    'channel' => 'live_trades_' . strtolower($m->coinPair->name)
                 ]
             ];
 
@@ -66,7 +60,7 @@ class CoinbaseSocket extends BaseExchangeSocket
 
     public function getConnectionUrl()
     {
-        return 'wss://ws-feed.pro.coinbase.com';
+        return 'wss://ws.bitstamp.net/';
     }
 
     public function handleConnectionException()
