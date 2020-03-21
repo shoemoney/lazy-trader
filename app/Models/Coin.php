@@ -43,7 +43,24 @@ class Coin extends Model
             $price = $aggPrice->price;
         }
 
-        return number_format($price, 2);
+        return $price;
+    }
+
+    public function getPriceFormattedAttribute()
+    {
+        return number_format($this->getPriceAttribute(), 2);
+    }
+
+    public function getMarketCapFormattedAttribute()
+    {
+        return number_format($this->attributes['market_cap'], 2);
+    }
+
+    public function getNumMarketsAttribute()
+    {
+        return $this->baseCoinPairs->sum(function($x) {
+            return $x->markets()->count();
+        });
     }
 
     public function scopeOrderByRank($query)

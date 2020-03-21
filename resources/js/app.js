@@ -47,6 +47,9 @@ WebFont.load({
         families: ['Montserrat:300,500,700']
     }
 });
+Vue.filter('currency', function (value) {
+    return '$' + parseFloat(value).toFixed(2);
+});
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 Vue.component('title-bar', TitleBar);
@@ -59,13 +62,19 @@ Vue.use(Buefy, {
     defaultIconPack: 'fas',
 });
 
+import VueApollo from 'vue-apollo'
+
+Vue.use(VueApollo)
+
 import router from './router';
 import store from './src/store/store';
 import App from '@/App';
+import apolloProvider from './src/client/client';
 
 new Vue({
     router,
     store,
+    apolloProvider,
     el: '#app',
     created() {
         if (this.$store.getters.isAuthenticated) {

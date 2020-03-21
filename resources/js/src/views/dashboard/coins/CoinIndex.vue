@@ -8,6 +8,7 @@
                 </p>
             </header>
             <div class="card-content">
+                {{ coins }}
                 <div class="content">
                     <b-table :data="displayCoins" :columns="coinColumns" :striped="true" :hoverable="true"
                              :loading="isLoading" @click="onClickCoin">
@@ -26,11 +27,11 @@
                     </b-table>
 
                     <b-pagination
-                        :total="coins ? coins.length : 0"
-                        :per-page="pagination.limit"
+                        v-if="!isLoading"
+                        :total="coins.paginatorInfo.total"
+                        :per-page="coins.paginatorInfo.perPage"
                         :simple="true"
-                        :current.sync="pagination.page"
-                        @change="changePage"
+                        :current.sync="page"
                         aria-next-label="Next page"
                         aria-previous-label="Previous page"
                         aria-page-label="Page"
@@ -44,23 +45,44 @@
 </template>
 
 <script>
-    import {mapGetters, mapState} from 'vuex';
+    import gql from 'graphql-tag';
 
     export default {
 
+        apollo: {
+            coins() {
+                return {
+                    query: gql`query CoinQuery($page: Int!) {
+                        coins(page: $page, orderBy: [{ field: "market_cap", order: DESC },{ field: "weiss_rating", order: ASC }]) {
+                            data {
+                                id
+                                name
+                                rank
+                                num_markets
+                                price_formatted
+                                market_cap_formatted
+                            }
+                            paginatorInfo {
+                                total
+                                perPage
+                                currentPage
+                                lastPage
+                            }
+                        }
+                    }`,
+                    variables() {
+                        return {page: this.page};
+                    }
+                }
+            },
+        },
+
         computed: {
             displayCoins() {
-
-                if(!this.coins)
+                if (this.isLoading)
                     return [];
 
-                let start = (this.pagination.page - 1) * this.pagination.limit;
-                let end = start + this.pagination.limit;
-
-                return this.coins.slice(
-                    start,
-                    end,
-                )
+                return this.coins.data
             },
 
             titleStack() {
@@ -68,13 +90,10 @@
                     'Coins'
                 ]
             },
-            ...mapState('Coins', [
-                'coins',
-                'pagination'
-            ]),
-            ...mapGetters('Coins', [
-                'isLoading'
-            ])
+
+            isLoading() {
+                return this.$apollo.queries.coins.loading;
+            }
         },
 
 
@@ -82,43 +101,40 @@
             return {
                 coinColumns: [
                     {
-                        field: 'id',
-                        label: 'ID',
+                        field: 'rank',
+                        label: 'Rank',
                         width: '40',
                         numeric: true
                     },
                     {
                         field: 'name',
                         label: 'Name',
-
                     },
                     {
                         field: 'num_markets',
                         label: '# of Markets',
                     },
                     {
-                        field: 'price',
-                        label: 'Current Agg Price'
+                        field: 'price_formatted',
+                        label: 'Current Agg Price',
+                        numeric: true
+                    },
+                    {
+                        field: 'market_cap_formatted',
+                        label: 'Market Cap',
+                        numeric: true
                     }
-                ]
+                ],
+                page: 1
+                // hello: ''
             }
         },
 
 
         methods: {
-            changePage(page) {
-                this.$store.commit('Coins/setCoinPage', page);
-            },
-
             onClickCoin(coin) {
                 this.$router.push({name: 'coins.view', params: {symbol: coin.symbol}})
             }
         },
-
-        mounted() {
-            if (!this.coins) {
-                this.$store.dispatch('Coins/coinsRequest');
-            }
-        }
     }
 </script>

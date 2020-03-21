@@ -1,0 +1,45 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-01-01 13:00:00`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+type Query {
+    me: User @auth(guard: "api")
+    users: [User!]! @paginate(defaultCount: 10)
+    user(id: ID @eq): User @find
+    coins(orderBy: [OrderByClause!] @orderBy): [Coin!]! @paginate(defaultCount: 25, scopes: ["orderByRank"])
+    coin(id: ID @eq): Coin @find
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Coin {
+    id: ID!
+    symbol: String!
+    name: String!
+    full_name: String!
+    image_url: String!
+    rank: Int!
+    num_markets: Int!
+    price: Float!
+    price_formatted: String!
+    market_cap: Float!
+    market_cap_formatted: String!
+}
+
+input OrderByClause {
+    field: String!
+    order: SortOrder!
+}
+
+enum SortOrder {
+    ASC
+    DESC
+}

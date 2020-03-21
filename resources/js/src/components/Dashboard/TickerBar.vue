@@ -3,7 +3,8 @@
         <div class="card-content">
             <div class="ticker-wrapper">
                 <div class="tickers" v-if="!isLoading">
-                    <router-link class="ticker" v-for="coin in rankedCoins" :to="{name: 'coins.view', params: {symbol: coin.symbol}}" v-bind:key="coin.id">
+                    <router-link class="ticker" v-for="coin in coins.data"
+                                 :to="{name: 'coins.view', params: {symbol: coin.symbol}}" v-bind:key="coin.id">
                         <img :src="coin.image_url" :alt="coin.full_name">
                         <span>{{ coin.name }}</span>
                         <span>${{ coin.price }}</span>
@@ -18,22 +19,37 @@
 </template>
 
 <script>
-    import {mapGetters, mapState} from "vuex";
+    import gql from 'graphql-tag';
 
     export default {
+        apollo: {
+            coins: gql`query {
+                        coins(
+                            page: 1,
+                            orderBy: [{ field: "market_cap", order: DESC },{ field: "weiss_rating", order: DESC }]
+                        ) {
+                            data {
+                                id
+                                name
+                                symbol
+                                image_url
+                                full_name
+                                price
+                            }
+                            paginatorInfo {
+                                total
+                                perPage
+                                currentPage
+                                lastPage
+                            }
+                        }
+                    }`
 
-        computed: {
-            ...mapState('TickerBar', [
-                'rankedCoins'
-            ]),
-            ...mapGetters('TickerBar', [
-                'isLoading'
-            ])
+            ,
         },
-
-        mounted() {
-            if(!this.rankedCoins) {
-                this.$store.dispatch('TickerBar/rankedCoinsRequest');
+        computed: {
+            isLoading() {
+                return this.$apollo.queries.coins.loading;
             }
         }
 

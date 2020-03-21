@@ -21,7 +21,4 @@ Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('pass
 
 Route::middleware('auth:api')->namespace('Api')->group(function () {
     Route::get('/user', 'UserController@index');
-
-    Route::get('/coins/top', 'CoinsController@top');
-    Route::resource('/coins', 'CoinsController');
 });
