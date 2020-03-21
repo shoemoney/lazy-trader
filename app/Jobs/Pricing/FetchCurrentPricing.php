@@ -3,6 +3,8 @@
 namespace App\Jobs\Pricing;
 
 use App\Models\Market;
+use App\Services\Coins\CoinMarketCapService;
+use App\Services\Coins\CoinPriceService;
 use App\Services\Exchanges\ExchangeFactory;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -66,6 +68,11 @@ class FetchCurrentPricing implements ShouldQueue
                         throw $exception;
                     }
                 }
+            }
+
+            if ($this->market->coinPair->quote->is_fiat_currency) {
+                CoinMarketCapService::marketCap($this->market->coinPair->base);
+                CoinPriceService::aggregatePrice($this->market->coinPair->base);
             }
 
             unset($data);
