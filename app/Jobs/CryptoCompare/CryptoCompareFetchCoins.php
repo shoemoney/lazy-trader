@@ -22,7 +22,6 @@ class CryptoCompareFetchCoins implements ShouldQueue
      */
     public function handle()
     {
-        // TODO: Create CryptoCompare Base API
         $api = app()->make(CryptoCompareApi::class);
 
         $data = $api->coins();

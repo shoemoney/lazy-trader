@@ -14,6 +14,10 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
+Artisan::command('coinmarketcap:fetch-coins', function () {
+    dispatch(new \App\Jobs\CoinMarketCap\FetchCoins());
+})->describe('Fetches coins from CryptoCompare');
+
 Artisan::command('cryptocompare:fetch-coins', function () {
     dispatch(new \App\Jobs\CryptoCompare\CryptoCompareFetchCoins());
 })->describe('Fetches coins from CryptoCompare');

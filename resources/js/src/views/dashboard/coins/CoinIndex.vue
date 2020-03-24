@@ -8,7 +8,6 @@
                 </p>
             </header>
             <div class="card-content">
-                {{ coins }}
                 <div class="content">
                     <b-table :data="displayCoins" :columns="coinColumns" :striped="true" :hoverable="true"
                              :loading="isLoading" @click="onClickCoin">
@@ -58,6 +57,7 @@
                                 id
                                 name
                                 rank
+                                symbol
                                 num_markets
                                 price_formatted
                                 market_cap_formatted

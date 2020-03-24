@@ -26,6 +26,7 @@
         "@fortawesome/free-brands-svg-icons": "^5.12.1",
         "@fortawesome/free-solid-svg-icons": "^5.12.1",
         "@fortawesome/vue-fontawesome": "^0.1.9",
+        "apexcharts": "^3.17.0",
         "apollo-boost": "^0.4.7",
         "buefy": "^0.8.10",
         "bulma": "^0.8.0",
@@ -33,6 +34,7 @@
         "js-cookie": "^2.2.1",
         "laravel-echo": "^1.6.1",
         "pusher-js": "^5.1.1",
+        "vue-apexcharts": "^1.5.2",
         "vue-apollo": "^3.0.3",
         "vuex": "^3.1.2",
         "webfontloader": "^1.6.28"

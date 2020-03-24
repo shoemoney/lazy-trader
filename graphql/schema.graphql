@@ -10,6 +10,10 @@ type Query {
     user(id: ID @eq): User @find
     coins(orderBy: [OrderByClause!] @orderBy): [Coin!]! @paginate(defaultCount: 25, scopes: ["orderByRank"])
     coin(id: ID @eq): Coin @find
+    coinBySymbol(symbol: String @eq): Coin @find
+    market(id: ID @eq): Market @find
+
+    pricingByMarket(market: ID!, minTimestamp: Int, maxTimestamp: Int, range: String, type: String): [OHLCV]
 }
 
 type User {
@@ -32,6 +36,60 @@ type Coin {
     price_formatted: String!
     market_cap: Float!
     market_cap_formatted: String!
+    articles: [NewsArticle!]
+}
+
+type NewsArticle {
+    id: ID!
+    title: String!
+    body: String!
+    published_on: DateTime!
+    url: String!
+    image_url: String!
+    tags: [Tag!]
+}
+
+type Tag {
+    id: ID!
+    tag: String!
+    coins: [Coin!]!
+    articles: [NewsArticle!]!
+}
+
+type Market {
+    id: ID!
+    exchange: Exchange! @belongsTo
+    coinPair: CoinPair! @belongsTo
+    prices: [MarketPricing!]! @hasMany
+}
+
+type CoinPair {
+    id: ID!
+
+}
+
+type Exchange {
+    id: ID!
+
+}
+
+type MarketPricing {
+    id: ID!
+    timestamp: Int!
+    open: Float!
+    high: Float!
+    low: Float!
+    close: Float!
+    volume: Float
+}
+
+type OHLCV {
+    ts: Int!
+    open: Float!
+    high: Float!
+    low: Float!
+    close: Float!
+    volume: Float
 }
 
 input OrderByClause {

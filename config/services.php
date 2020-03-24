@@ -38,6 +38,11 @@ return [
     'coinograph' => [
         'base-uri' => env('COINOGRAPH_BASE_URI', 'https://coinograph.io/')
     ],
+
+
+    'coinmarketcap' => [
+        'api-key' => env('COINMARKETCAP_API_KEY'),
+    ],
     'vue_client' => [
         'id' => env('VUE_CLIENT_ID'),
         'secret' => env('VUE_CLIENT_SECRET'),

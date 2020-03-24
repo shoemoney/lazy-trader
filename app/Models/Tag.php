@@ -12,4 +12,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(Coin::class);
     }
+
+    public function articles()
+    {
+        return $this->belongsToMany(NewsArticle::class);
+    }
 }

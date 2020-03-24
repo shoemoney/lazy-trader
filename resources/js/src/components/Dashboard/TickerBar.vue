@@ -3,8 +3,12 @@
         <div class="card-content">
             <div class="ticker-wrapper">
                 <div class="tickers" v-if="!isLoading">
-                    <router-link class="ticker" v-for="coin in coins.data"
-                                 :to="{name: 'coins.view', params: {symbol: coin.symbol}}" v-bind:key="coin.id">
+                    <router-link
+                        class="ticker"
+                        v-for="coin in coins.data"
+                        :to="{name: 'coins.view', params: {symbol: coin.symbol}}"
+                        v-bind:key="coin.id"
+                    >
                         <img :src="coin.image_url" :alt="coin.full_name">
                         <span>{{ coin.name }}</span>
                         <span>${{ coin.price }}</span>
