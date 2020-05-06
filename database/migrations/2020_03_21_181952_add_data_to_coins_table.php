@@ -29,6 +29,8 @@ class AddDataToCoinsTable extends Migration
     {
         Schema::table('coins', function (Blueprint $table) {
             $table->dropColumn('description');
+            $table->dropColumn('notice');
+            $table->dropColumn('date_added');
         });
     }
 }

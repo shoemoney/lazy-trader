@@ -33,6 +33,6 @@ class CreateNewsTagsPivotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('news_tags');
+        Schema::dropIfExists('news_article_tag');
     }
 }

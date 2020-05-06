@@ -38,10 +38,10 @@ class PricingByMarket
             $query->groupBy([\DB::raw('FLOOR(market_prices.timestamp / ' . $time . ') * ' . $time), 'market_id']);
             $query->select([
                 \DB::raw('FLOOR(market_prices.timestamp / ' . $time . ') * ' . $time . ' as ts'),
-                \DB::raw('(SELECT open FROM market_prices openmp WHERE openmp.timestamp = MIN(market_prices.timestamp) AND openmp.market_id = market_prices.market_id ORDER BY openmp.timestamp ASC LIMIT 1) as open'),
+                \DB::raw('(SELECT open FROM market_prices openmp WHERE openmp.timestamp = MIN(market_prices.timestamp) AND openmp.market_id = market_prices.market_id LIMIT 1) as open'),
                 \DB::raw('MAX(market_prices.high) as high'),
                 \DB::raw('MIN(market_prices.low) as low'),
-                \DB::raw('(SELECT close FROM market_prices closemp WHERE closemp.timestamp = MAX(market_prices.timestamp) AND closemp.market_id = market_prices.market_id ORDER BY closemp.timestamp DESC LIMIT 1) as close'),
+                \DB::raw('(SELECT close FROM market_prices closemp WHERE closemp.timestamp = MAX(market_prices.timestamp) AND closemp.market_id = market_prices.market_id LIMIT 1) as close'),
                 \DB::raw('IFNULL(SUM(market_prices.volume), 0) as volume')
             ]);
         } else {
